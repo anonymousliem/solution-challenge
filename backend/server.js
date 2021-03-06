@@ -161,7 +161,66 @@ app.delete('/api/books/:id',(req, res) => {
     });
   });
 
+/**** END CRUD BOOKS*****/
+
+/**** START CRUD PINJAMAN*****/
+
+//get all pinjaman
+app.get('/api/peminjamans',(req, res) => {
+    let sql = "SELECT * FROM peminjaman";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//show single books
+app.get('/api/peminjamans/:id',(req, res) => {
+    let sql = "SELECT * FROM peminjaman WHERE id_peminjaman="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//post api pinjaman  
+app.post('/api/peminjamans', function(req, res) {
+  let sql = `INSERT INTO peminjaman(tanggal_pinjam, tanggal_kembali, id_buku, id_user) VALUES (?)`;
+  
+  let values = [
+    req.body.tanggal_pinjam,
+    req.body.tanggal_kembali,
+    req.body.id_buku,
+    req.body.id_user
+  ];
+
+   conn.query(sql, [values],(err, results) => {
+          if(err) throw err;
+          res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+        });
+});
+
+//update books
+app.put('/api/peminjamans/:id',(req, res) => {
+    let sql = "UPDATE peminjaman SET tanggal_pinjam='"+req.body.tanggal_pinjam+"', tanggal_kembali='"+req.body.tanggal_kembali+"', id_buku='"+req.body.id_buku+"', id_user='"+req.body.id_user+"' WHERE id_peminjaman="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+});
+
+//Delete books
+app.delete('/api/peminjamans/:id',(req, res) => {
+    let sql = "DELETE FROM peminjaman WHERE id_peminjaman="+req.params.id+"";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+/**** END CRUD PINJAMAN*****/
+
 //Server listening
 app.listen(4000,() =>{
   console.log('Server started on port 4000...');
 });
+

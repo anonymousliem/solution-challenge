@@ -43,6 +43,7 @@ conn.connect((err) =>{
 
 });
  
+/****  CRUD USER*****/
 //show all user
 app.get('/api/users',(req, res) => {
   let sql = "SELECT * FROM user";
@@ -54,7 +55,7 @@ app.get('/api/users',(req, res) => {
  
 //show single users
 app.get('/api/users/:id',(req, res) => {
-  let sql = "SELECT * FROM product WHERE product_id="+req.params.id;
+  let sql = "SELECT * FROM user WHERE id_user="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -62,7 +63,7 @@ app.get('/api/users/:id',(req, res) => {
 });
  
 
-
+//post user
 app.post('/api/users', function(req, res) {
     let sql = `INSERT INTO user(nama, no_telepon, asal, identitas, status, photo) VALUES (?)`;
     
@@ -72,7 +73,7 @@ app.post('/api/users', function(req, res) {
       req.body.asal,
       req.body.identitas,
       req.body.status,
-      req.photo
+      req.body.photo
     ];
 
      conn.query(sql, [values],(err, results) => {
@@ -83,7 +84,7 @@ app.post('/api/users', function(req, res) {
 
 //update users
 app.put('/api/users/:id',(req, res) => {
-  let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.params.id;
+  let sql = "UPDATE user SET nama='"+req.body.nama+"', no_telepon='"+req.body.no_telepon+"', asal='"+req.body.asal+"', identitas='"+req.body.identitas+"', status='"+req.body.status+"', photo='"+req.body.photo+"' WHERE id_user="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -92,13 +93,74 @@ app.put('/api/users/:id',(req, res) => {
  
 //Delete users
 app.delete('/api/users/:id',(req, res) => {
-  let sql = "DELETE FROM product WHERE product_id="+req.params.id+"";
+  let sql = "DELETE FROM user WHERE id_user="+req.params.id+"";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
  
+/**** END CRUD USER*****/
+
+/*** START CRUD BUKU ***/
+
+//show all user
+app.get('/api/books',(req, res) => {
+    let sql = "SELECT * FROM buku";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//show single books
+app.get('/api/books/:id',(req, res) => {
+    let sql = "SELECT * FROM buku WHERE id_buku="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });  
+
+//post api book  
+app.post('/api/books', function(req, res) {
+    let sql = `INSERT INTO buku(judul_buku, id_user, penulis, tahun_terbit, penerbit, jenis, jumlah, foto) VALUES (?)`;
+    
+    let values = [
+      req.body.judul_buku,
+      req.body.id_user,
+      req.body.penulis,
+      req.body.tahun_terbit,
+      req.body.penerbit,
+      req.body.jenis,
+      req.body.jumlah,
+      req.body.foto
+    ];
+
+     conn.query(sql, [values],(err, results) => {
+            if(err) throw err;
+            res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+          });
+  });
+
+//update books
+app.put('/api/books/:id',(req, res) => {
+    let sql = "UPDATE buku SET judul_buku='"+req.body.judul_buku+"', id_user='"+req.body.id_user+"', penulis='"+req.body.penulis+"', tahun_terbit='"+req.body.tahun_terbit+"', penerbit='"+req.body.penerbit+"', jenis='"+req.body.jenis+"', jumlah='"+req.body.jumlah+"', foto='"+req.body.foto+"' WHERE id_buku="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//Delete books
+app.delete('/api/books/:id',(req, res) => {
+    let sql = "DELETE FROM buku WHERE id_buku="+req.params.id+"";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
 //Server listening
 app.listen(4000,() =>{
   console.log('Server started on port 4000...');

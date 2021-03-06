@@ -2,16 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
+require('dotenv').config();
  
 // parse application/json
 app.use(bodyParser.json());
  
 //create database connection
 const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'sc'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
  
 //connect to database
@@ -222,5 +223,6 @@ app.delete('/api/peminjamans/:id',(req, res) => {
 //Server listening
 app.listen(4000,() =>{
   console.log('Server started on port 4000...');
+  console.log(process.env.DB_USER);
 });
 

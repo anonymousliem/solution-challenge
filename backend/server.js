@@ -19,7 +19,14 @@ const conn = mysql.createConnection({
 conn.connect((err) =>{
      if (!err) {
         console.log("Connected");
-        var sqlTableUser = "CREATE TABLE IF NOT EXISTS user (id_user INT NOT NULL AUTO_INCREMENT, nama VARCHAR(255) NOT NULL, no_telepon INT NOT NULL, asal VARCHAR(255) NOT NULL, identitas VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, photo VARCHAR(255), PRIMARY KEY (id_user))";
+        var sqlTableAccount = "CREATE TABLE IF NOT EXISTS account (id_account INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id_account)) ";
+        
+        conn.query(sqlTableAccount, function (err, result) {
+          if (err) throw err;
+          console.log("Table account created");
+        });
+  
+        var sqlTableUser = "CREATE TABLE IF NOT EXISTS user (id_user INT NOT NULL AUTO_INCREMENT, nama VARCHAR(255) NOT NULL, no_telepon INT NOT NULL, asal VARCHAR(255) NOT NULL, identitas VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, photo VARCHAR(255), PRIMARY KEY (id_user), FOREIGN KEY(id_user) REFERENCES account(id_account))";
         
         conn.query(sqlTableUser, function (err, result) {
           if (err) throw err;
@@ -43,6 +50,59 @@ conn.connect((err) =>{
       }
 
 });
+
+/**** START  CRUD ACCOUNT *****/
+//show all account
+app.get('/api/accounts',(req, res) => {
+    let sql = "SELECT * FROM account";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//show single account
+app.get('/api/accounts/:id',(req, res) => {
+    let sql = "SELECT * FROM account WHERE id_account="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//post account
+app.post('/api/accounts', function(req, res) {
+  let sql = `INSERT INTO account(email, password) VALUES (?)`;
+  
+  let values = [
+    req.body.email,
+    req.body.password
+  ];
+
+   conn.query(sql, [values],(err, results) => {
+          if(err) throw err;
+          res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+        });
+}); 
+
+//update account
+app.put('/api/accounts/:id',(req, res) => {
+    let sql = "UPDATE account SET email='"+req.body.email+"', password='"+req.body.password+"' WHERE id_account="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+//Delete users
+app.delete('/api/accounts/:id',(req, res) => {
+    let sql = "DELETE FROM account WHERE id_account="+req.params.id+"";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+  /****  END CRUD ACCOUNT*****/
  
 /****  CRUD USER*****/
 //show all user

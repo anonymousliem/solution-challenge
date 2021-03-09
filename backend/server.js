@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
 const multer = require('multer')
-const uploadImage = require('../backend/helpers/helpers')
+const uploadImage = require('./helpers/helpers')
 require('dotenv').config();
 
 // parse application/json

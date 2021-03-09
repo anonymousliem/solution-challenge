@@ -17,12 +17,9 @@ const AddAccount = React.lazy(() => import('./views/Pages/Account/AddAccount'));
 const ListAccount = React.lazy(() => import('./views/Pages/Account/ListAccount'));
 const Editaccount = React.lazy(() => import('./views/Pages/Account/EditAccount'));
 const ListAtOffice = React.lazy(() => import('./views/Pages/Absensi/AtOffice/ListAtOffice'));
-const ListWorkFromHome = React.lazy(() => import('./views/Pages/Absensi/WorkFromHome/ListWorkFromHome'));
 const ListBelomAbsen = React.lazy(() => import('./views/Pages/Absensi/BelomAbsen/ListBelomAbsen'));
 const ListAllAbsen = React.lazy(() => import('./views/Pages/Absensi/ListAllAbsensi/ListAllAbsensi'));
 const ListApproval = React.lazy(() => import('./views/Pages/Absensi/Approval/ListApproval'));
-const ListWorkAtClient = React.lazy(() => import('./views/Pages/Absensi/WorkAtClient/ListWorkAtClient'));
-const ListSick = React.lazy(() => import('./views/Pages/Absensi/Sick/ListSick'));
 const ListDivision = React.lazy(() => import('./views/Pages/Division/ListDivision'));
 const ListJobtitle = React.lazy(() => import('./views/Pages/Jobtitle/ListJobtitle'));
 const ListRole = React.lazy(() => import('./views/Pages/Role/ListRole'));
@@ -39,9 +36,6 @@ class App extends Component {
 
             <Route exact path="/absensi/listallabsen" name="Test Page" render={props => <ListAllAbsen {...props}/>} />
             <Route exact path="/absensi/testlur" name="Test Page" render={props => <TestLur {...props}/>} />
-            <Route exact path="/absensi/workfromhome" name="Edit Account Page" render={props => <ListWorkFromHome {...props}/>} />
-            <Route exact path="/absensi/workatclient" name="Edit Account Page" render={props => <ListWorkAtClient {...props}/>} />
-            <Route exact path="/absensi/sick" name="Edit Account Page" render={props => <ListSick {...props}/>} />
             <Route exact path="/absensi/belumabsen" name="Edit Account Page" render={props => <ListBelomAbsen {...props}/>} />
             <Route exact path="/absensi/atoffice" name="Edit Account Page" render={props => <ListAtOffice {...props}/>} />
             <Route exact path="/absensi/approval" name="Edit Account Page" render={props => <ListApproval {...props}/>} />

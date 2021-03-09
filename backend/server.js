@@ -5,10 +5,10 @@ const mysql = require('mysql');
 const multer = require('multer')
 const uploadImage = require('./helpers/helpers')
 require('dotenv').config();
-
+var cors = require('cors')
 // parse application/json
 app.use(bodyParser.json());
- 
+app.use(cors())
 //create database connection
 const conn = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -180,6 +180,16 @@ app.get('/api/books/:id',(req, res) => {
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     });
   });  
+
+  //show single books
+app.get('/api/booksfilter',(req, res) => {
+  
+    let sql = "SELECT * FROM buku WHERE id_buku='"+req.query.id_buku+"' OR judul_buku='"+req.query.judul+"'";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  }); 
 
 //post api book  
 app.post('/api/books', function(req, res) {

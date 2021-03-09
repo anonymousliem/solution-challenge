@@ -40,7 +40,8 @@ class ListBook extends Component {
           results: [],
           perPage: 10,
           currentPage: 0,
-          offset: 0
+          offset: 0,
+          heroku : 'https://cors-anywhere.herokuapp.com'
         };
       }
   loading = () => (
@@ -70,12 +71,13 @@ class ListBook extends Component {
 
     axios({
       method: 'get',
-      url: 'https://reqres.in/api/users?page=2&&_limit=2',
+      url : 'http://localhost:4000/api/books'
+      //url: this.state.heroku + '/https://dsc-undip-solution-challenge.et.r.appspot.com/api/books',
     })
       .then(data => {
-        console.log(data.data.data)
+        console.log(data)
         this.setState({
-           results: data.data.data,
+           results: data.data.response,
           loading: true,
         });
       })
@@ -112,27 +114,29 @@ class ListBook extends Component {
             <AppBreadcrumb appRoutes={routes} router={router} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
-              <CardGroup>
+            
              {this.state.results.map(datas => 
-                 <Card style={{marginLeft:'20px'}}>
-                 <Card.Img style={{height:'200px'}} variant="top" src={datas.avatar} />
+                 <Card style={{marginLeft:'20px', display:'inline-block', maxWidth:'300px'}}>
+                 <Card.Img style={{height:'200px'}} variant="top" src={datas.foto} />
                  <Card.Body>
-                   <Card.Title>{datas.title}</Card.Title>
+                   <Card.Title>{datas.judul_buku}</Card.Title>
                    <Card.Text>
-                     This is a wider card with supporting text below as a natural lead-in to
-                     additional content. This card has even longer content than the first to
-                     show that equal height action.
+                     Penulis : {datas.penulis}<br />
+                     Tahun Terbit : {datas.tahun_terbit} <br />
+                     Penerbit : {datas.penerbit}<br />
+                     jenis : {datas.jenis}<br />
+                     jumlah : {datas.jumlah}
                    </Card.Text>
                  </Card.Body>
                  <Card.Footer>
-                   <small className="text-muted">Last updated 3 mins ago</small>
+                 <center> <button class="btn-info">Detail</button></center>
                  </Card.Footer>
                </Card>
 
 
                
                )}   
-             </CardGroup>
+           
                 <Switch>
                   {routes.map((route, idx) => {
                     return route.component ? (

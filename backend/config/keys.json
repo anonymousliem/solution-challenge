@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "dsc-undip-solution-challenge",
+  "private_key_id": "92559210ae9de4fe6f35954a17e999b48f5100b5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3WqnbzWm9Uk/d\nBNW47xw+JUdl0b8ICfGNT/H0sYYVprdeP6jDqKS8uyqa+5pRdI9fvylMXc7o2kwG\nG9QhV1CLFyAc2+/qMhzBjO4nIDKCneMjtO+z4LumyV9rmi31Xi8bY8O9BhGHId69\nqxuomhIVaSSzXHsDog9+MEzJBeFU7f/sQiXXSzzYgbe6bRNFAxcIkeeTN5IED/YH\nBPWtPHjbP3Lh6RxetkOL8NgSU/1goKER+9Vz5GbnwkC+nH1A1ZQZ8MqvG8hrXviK\ndXZuq87zNLF7knHMcjVuRhIrVcQUtwm1fDHJnvcVRkBm+N0HC98mufkXPUaJi+s/\nGyWi/TdhAgMBAAECggEAHKsv6OmBht53v01cui76QbCkLRmdHtLTMoRqsWxlKeh9\n6QjXc0m2AbkwLGMlGhG5beqeuKKS/MSj43FMJgRtgw9UGum8EGh9J47zbn8HIXYy\nHZNScX6KSMYEG00psiEOXjV8qwcSYYiHDS1TxJ/b2P4uL19JRWRRu3+DhLZcfmH5\nAEDxOzecSXzDe7/SeatfmRLX4i/LYZpaCu1QeAoRdmW0z/SDsWRCICyWOU71O3gq\n68n2R9J3HaXncpK0mAK3nvD4Uv0qYm4VyAkeX9hhxcHss1As4mJTnHassIh1k0+q\nVumhNqdqih9dZORCm2cmMZ4e7jt5fV7L1QMYE0lZ0wKBgQDpIcyWjunM3mivs4PP\nEFHkFZ2gfZo8FaHNCI9fPCYdnuIyPf2AnV/VvX3MZfUYy58l8r10rgm+n3yYCNaX\nF2HMkSghX9fOLNsk80aV7CWQ3TCXKnAjXM7SZgMRq8gMV8SbH8oAaw/ucdMSsg53\n1CArGLOxptGlsbfSTJjfj2AKnwKBgQDJVuMpm7WnQsQ4eeGlM14jUdOn3r+ga1db\nFMSjnHbhZZ1QnvUStjnMbNzFHfL62xR/4d5jqNoDdiTHlslnqnd5OyG5yWBMYVIN\nSfCOYolEQeJyv8Sc5Ga3iFTk2IM5/XqpeqUaX8vZTdD//ZkvfaICxa4G8S7D7TPF\ncaFN0v19/wKBgQDQ9PeANyY991dTrI5G6PTNf8Zh1FKK6kS1FqgTD0GGqSNLLx7p\nyaTdWlPIAdbWW6QRCmpfi6K2VhMB3mIg2NdS2QRkLZirdq8Rhm/M7vWYy3jC9Um/\nmG7UTJURoKvUzFIvTCXtjAiiiylKB4hKRTp0BlcBs2kTn6AIgZlAQC0wNwKBgDH1\nk2yRrKOSV6pD5A/gDS3qcgCnrxkZSZXaM2j9vCn10vFcYCeCfBkTsjxfUBmbHx0U\naOCF14MgX8P+0H8et4Knf5jgNTr+syOFA2HxZWpAhvY+S4U6z5ofBCG87+MF2NgR\nDMLcnnKPcpryzH4SSI8zihlC433OcBhAN+xdvHT1AoGBAKc2kRCyltGWcYzrxMK5\n3k7jRZRKI09jdOub+DUFH/gb5ojrgEtWqms5mnk5ui4A0QBkz9q2/bDX2pig92CH\no2vofZvcllMi0fONZ/qKw9mGy1jW3t8obyuEHBCDRczNTm/g4LBBB36Orc6ECxVN\nh+Ttg5WxtirQ/KHshJWNYkb5\n-----END PRIVATE KEY-----\n",
+  "client_email": "uploadimages@dsc-undip-solution-challenge.iam.gserviceaccount.com",
+  "client_id": "109699366730612588471",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/uploadimages%40dsc-undip-solution-challenge.iam.gserviceaccount.com"
+}

@@ -2,8 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
+const multer = require('multer')
+const uploadImage = require('../backend/helpers/helpers')
 require('dotenv').config();
- 
+
 // parse application/json
 app.use(bodyParser.json());
  
@@ -23,26 +25,22 @@ conn.connect((err) =>{
         
         conn.query(sqlTableAccount, function (err, result) {
           if (err) throw err;
-          console.log("Table account created");
         });
   
         var sqlTableUser = "CREATE TABLE IF NOT EXISTS user (id_user INT NOT NULL AUTO_INCREMENT, nama VARCHAR(255) NOT NULL, no_telepon INT NOT NULL, asal VARCHAR(255) NOT NULL, identitas VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, photo VARCHAR(255), PRIMARY KEY (id_user), FOREIGN KEY(id_user) REFERENCES account(id_account))";
         
         conn.query(sqlTableUser, function (err, result) {
           if (err) throw err;
-          console.log("Table user created");
         });
     
         var sqlTableBuku = "CREATE TABLE IF NOT EXISTS buku (id_buku INT NOT NULL AUTO_INCREMENT, judul_buku VARCHAR(255) NOT NULL, id_user INT NOT NULL, penulis VARCHAR(255) NOT NULL, tahun_terbit INT NOT NULL, penerbit VARCHAR(255) NOT NULL, jenis VARCHAR(255) NOT NULL, jumlah INT NOT NULL, foto VARCHAR(255), PRIMARY KEY(id_buku), FOREIGN KEY(id_user) REFERENCES user(id_user) )";
         conn.query(sqlTableBuku, function (err, result) {
             if (err) throw err;
-            console.log("Table buku created");
         });
     
         var sqlTablePeminjaman = "CREATE TABLE IF NOT EXISTS peminjaman (id_peminjaman INT NOT NULL AUTO_INCREMENT, tanggal_pinjam DATE, tanggal_kembali DATE, id_buku INT NOT NULL, id_user INT NOT NULL, PRIMARY KEY(id_peminjaman), FOREIGN KEY(id_user) REFERENCES user(id_user), FOREIGN KEY(id_buku) REFERENCES buku(id_buku) ) ";
         conn.query(sqlTablePeminjaman, function (err, result) {
             if (err) throw err;
-              console.log("Table peminjaman created");
         });
     
       } else {
@@ -280,9 +278,40 @@ app.delete('/api/peminjamans/:id',(req, res) => {
   });
 /**** END CRUD PINJAMAN*****/
 
+
+/*** MULTER***/
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    // no larger than 5mb.
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
+app.disable('x-powered-by')
+app.use(multerMid.single('file'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
+app.post('/uploads', async (req, res, next) => {
+  try {
+    const myFile = req.file
+    const imageUrl = await uploadImage(myFile)
+
+    res
+      .status(200)
+      .json({
+        message: "Upload was successful",
+        data: imageUrl
+      })
+  } catch (error) {
+    next(error)
+  }
+})
+/*** END MULTER ***/
+
 //Server listening
 app.listen(4000,() =>{
   console.log('Server started on port 4000...');
-  console.log(process.env.DB_USER);
 });
 

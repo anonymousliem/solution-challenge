@@ -1,9 +1,9 @@
+import {urlAlldata} from '../../../Constant'
 import React, { Component, Suspense } from 'react';
 import {Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { Card, CardGroup} from 'react-bootstrap';
-import ReactPaginate from 'react-paginate';
+import Tables from './Tables'
 import axios from 'axios';
 import {
   AppAside,
@@ -41,7 +41,7 @@ class ListBook extends Component {
           perPage: 10,
           currentPage: 0,
           offset: 0,
-          //heroku : 'https://cors-anywhere.herokuapp.com'
+          seacrh : ""
         };
       }
   loading = () => (
@@ -71,13 +71,12 @@ class ListBook extends Component {
 
     axios({
       method: 'get',
-      url : 'https://dsc-undip-solution-challenge.et.r.appspot.com/api/books'
-      //url: this.state.heroku + '/https://dsc-undip-solution-challenge.et.r.appspot.com/api/books',
+      url : urlAlldata
     })
       .then(data => {
         console.log(data)
         this.setState({
-           results: data.data.response,
+           results: data.data,
           loading: true,
         });
       })
@@ -114,8 +113,9 @@ class ListBook extends Component {
             <AppBreadcrumb appRoutes={routes} router={router} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
-            
-             {this.state.results.map(datas => 
+
+            <Tables />
+             {/* {this.state.results.map(datas => 
                  <Card style={{marginLeft:'20px', display:'inline-block', maxWidth:'300px'}}>
                  <Card.Img style={{height:'200px'}} variant="top" src={datas.foto} />
                  <Card.Body>
@@ -135,7 +135,7 @@ class ListBook extends Component {
 
 
                
-               )}   
+               )}    */}
            
                 <Switch>
                   {routes.map((route, idx) => {

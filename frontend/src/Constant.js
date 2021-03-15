@@ -1,5 +1,6 @@
+export const urlAlldata="https://dsc-undip-solution-challenge.et.r.appspot.com/api/alldata";
 export const urlAbsen = "https://eworkmoonlay-absen-dev.azurewebsites.net/v1/Absensis";
-export const urlBlob = "https://eworkmoonlay-absen-dev.azurewebsites.net/api/BlobStorage/InsertFile";
+export const urlBlob = "https://dsc-undip-solution-challenge.et.r.appspot.com/uploads";
 export const urlUser = "https://eworkmoonlay-user-dev.azurewebsites.net/v1/accounts";
 //export const urlUser ='http://localhost:60213/v1/accounts';
 export const urlLogin = 'https://eworkmoonlay-user-dev.azurewebsites.net/v1/authenticate';

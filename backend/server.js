@@ -42,6 +42,12 @@ conn.connect((err) =>{
         conn.query(sqlTablePeminjaman, function (err, result) {
             if (err) throw err;
         });
+
+        var sqlViewAllDatas = "CREATE OR REPLACE VIEW AllData as SELECT account.email, user.id_user, user.nama, user.no_telepon, user.asal, user.status, user.photo,buku.id_buku,buku.judul_buku,buku.penulis,buku.tahun_terbit,buku.penerbit,buku.jenis,buku.jumlah,buku.foto FROM account INNER JOIN user INNER JOIN buku ON account.id_account = user.id_user AND buku.id_user = user.id_user";
+        conn.query(sqlViewAllDatas, function (err, result) {
+            if (err) throw err;
+        });
+
     
       } else {
         console.log("Connection Failed");
@@ -319,7 +325,16 @@ app.post('/uploads', async (req, res, next) => {
   }
 })
 /*** END MULTER ***/
+app.get('/api/alldata',(req, res) => {
+    let sql = "SELECT * FROM AllData";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+/*** all data view****/
 
+/*** end data view ***/
 //Server listening
 var port = process.env.PORT || 4000;
 app.listen(port,() =>{

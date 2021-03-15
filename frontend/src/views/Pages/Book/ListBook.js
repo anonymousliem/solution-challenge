@@ -41,7 +41,7 @@ class ListBook extends Component {
           perPage: 10,
           currentPage: 0,
           offset: 0,
-          heroku : 'https://cors-anywhere.herokuapp.com'
+          //heroku : 'https://cors-anywhere.herokuapp.com'
         };
       }
   loading = () => (
@@ -71,7 +71,7 @@ class ListBook extends Component {
 
     axios({
       method: 'get',
-      url : 'http://localhost:4000/api/books'
+      url : 'https://dsc-undip-solution-challenge.et.r.appspot.com/api/books'
       //url: this.state.heroku + '/https://dsc-undip-solution-challenge.et.r.appspot.com/api/books',
     })
       .then(data => {

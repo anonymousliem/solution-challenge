@@ -1,127 +1,111 @@
-import React, { Component } from 'react';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, CardImg, CardText } from 'reactstrap';
-import Logo from '../../../assets/img/brand/eworkplace3.svg'
-import axios from 'axios'
-import {urlLogin, urlMe} from '../../../Constant'
+import React, { Component } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardGroup,
+  Col,
+  Container,
+  Form,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Row,
+  CardImg,
+} from "reactstrap";
+import Logo from "../../../assets/img/brand/eworkplace3.svg";
+import axios from "axios";
+import { urlLogin } from "../../../Constant";
 class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      username : '',
-      password : '',
-      logged : false,
-      messageErrorPassword : '',
-      messageErrorUsername : '',
-      url : urlLogin
-    }
+    this.state = {
+      email: "",
+      password: "",
+      logged: false,
+      messageErrorPassword: "",
+      messageErroremail: "",
+      url: urlLogin,
+    };
   }
 
-  handleUsername = (e) => {
+  handleEmail = (e) => {
     var values = e.target.value;
-    if(values !== ""){
+    if (values !== "") {
       this.setState({
-        messageErrorUsername : ''
-      })
+        messageErroremail: "",
+      });
     }
 
     this.setState({
-      username : e.target.value
-    })
+      email: e.target.value,
+    });
+  };
 
-  }
-
-  
   handlePassword = (e) => {
     var valuesPassword = e.target.value;
-    if(valuesPassword !== ""){
+    if (valuesPassword !== "") {
       this.setState({
-        messageErrorPassword : ''
-      })
+        messageErrorPassword: "",
+      });
     }
     this.setState({
-      password : e.target.value
-    })
-  }
+      password: e.target.value,
+    });
+  };
 
   onHandleSubmit = () => {
-    var username = this.state.username;
+    var email = this.state.email;
     var password = this.state.password;
-    if((username !== null && username !== "" ) && ( password !== null && password !== "") ){
+    if (
+      email !== null &&
+      email !== "" &&
+      password !== null &&
+      password !== ""
+    ) {
       const Header = {
-        accept: 'application/json',
-        'Content-Type' : 'application/json-patch+json'
-      }
-    
+        "Content-Type": "application/json",
+      };
+
       const Data = {
-        username : this.state.username,
-        password : this.state.password,
-      }
-  
+        email: this.state.email,
+        password: this.state.password,
+      };
+
       axios({
-        method: 'post',
+        method: "post",
         url: this.state.url,
         headers: Header,
         data: Data,
-      }).then(data => {
-        console.log(data.data)
-        var token = data.data.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("logged", true);
-        this.setState({
-          logged : true
-        })
-       // window.location.href = '/';  
-       //this.props.history.push('/absensi/listallabsen')
       })
-      .then(data => {
-        const value = localStorage.getItem('token');
+        .then((data) => {
+          var token = data.data.token;
+          var id_account = data.data.response[0].id_account;
 
-        const Headers = {
-          'accept' : 'application/json',
-          'Authorization' : `Bearer ` + value,
-        }
-        axios({
-          method: 'get',
-          url: urlMe,
-          headers: Headers,
-        }).then(data => {
-          var RoleId = data.data.data.permission.app;
-          //var token = data.data.data;
-          if(RoleId !== null && RoleId !== undefined){
-            localStorage.setItem("RoleId", RoleId);
-          }
+          sessionStorage.setItem("token", token);
+          sessionStorage.setItem("logged", true);
+          sessionStorage.setItem("id_session", id_account);
+
+          this.props.history.push("/books/list");
         })
-        .then(data => {
-          if(localStorage.getItem('RoleId') == 99){
-            this.props.history.push('/absensi/listallabsen')
-          }
-          else{
-            alert('Maap Anda Tidak Punya Akses Kesini')
-          }
-        })
-        .catch(err => {
-          console.log('errornya : ' + err)
-        })
-      })
-      .catch(err => {
-        alert("username atau password tidak ditemukan")
+        .catch((err) => {
+          alert("email atau password salah");
         });
     }
 
-    if(username === null || username === ""){
+    if (email === null || email === "") {
       this.setState({
-      messageErrorUsername : 'Username Tidak Boleh Kosong'
-      })
-   }
+        messageErroremail: "email Tidak Boleh Kosong",
+      });
+    }
 
-   if(password === null || password === ""){
-    
-    this.setState({
-      messageErrorPassword : 'Password tidak boleh kosong'
-    })
- }
-     
-  }
+    if (password === null || password === "") {
+      this.setState({
+        messageErrorPassword: "Password tidak boleh kosong",
+      });
+    }
+  };
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -140,29 +124,46 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" required onChange={this.handleUsername} placeholder="Username" autoComplete="username" />
+                        <Input
+                          type="text"
+                          required
+                          onChange={this.handleEmail}
+                          placeholder="email"
+                          autoComplete="email"
+                        />
                       </InputGroup>
-                      <font color="red">{this.state.messageErrorUsername}</font>
+                      <font color="red">{this.state.messageErroremail}</font>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="password" onChange={this.handlePassword} placeholder="Password" autoComplete="current-password" />
+                        <Input
+                          type="password"
+                          onChange={this.handlePassword}
+                          placeholder="Password"
+                          autoComplete="current-password"
+                        />
                       </InputGroup>
                       <font color="red">{this.state.messageErrorPassword}</font>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4" onClick={this.onHandleSubmit}>Login</Button>
+                          <Button
+                            color="primary"
+                            className="px-4"
+                            onClick={this.onHandleSubmit}
+                          >
+                            Login
+                          </Button>
                         </Col>
                       </Row>
                     </Form>
                   </CardBody>
                 </Card>
-                <Card body className="justify-content-center" style={{ width: '44%', backgroundColor: '#1A446D', }}>
+                {/* <Card body className="justify-content-center" style={{ width: '44%', backgroundColor: '#FFFFFF', }}>
                 <CardImg src={Logo} alt="Logo" style={{padding:'auto'}}  />
-                </Card>
+                </Card> */}
               </CardGroup>
             </Col>
           </Row>

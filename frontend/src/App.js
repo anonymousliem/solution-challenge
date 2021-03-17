@@ -14,7 +14,7 @@ const Register = React.lazy(() => import('./views/Pages/Register'));
 const Page404 = React.lazy(() => import('./views/Pages/Page404'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500'));
 const ListBook = React.lazy(() => import('./views/Pages/Book/ListBook'))
-
+const MyBook = React.lazy(() => import('./views/Pages/MyBook/ListBook'))
 class App extends Component {
 
   render() {
@@ -23,6 +23,7 @@ class App extends Component {
           <React.Suspense fallback={loading()}>
             <Switch>
             <Route exact path="/books/list" name="List Books Page" render={props => <ListBook {...props}/>} />
+            <Route exact path="/books/mybook" name="List MY Books Page" render={props => <MyBook {...props}/>} />
 
             {/* <Route exact path="/account/editaccount/:id" name="Edit Account Page" render={props => <Editaccount {...props}/>} /> */}
 

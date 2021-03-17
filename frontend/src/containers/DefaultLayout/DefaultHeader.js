@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import { UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import {AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
@@ -15,9 +14,7 @@ const defaultProps = {};
 
 class DefaultHeader extends Component {
   handleLogout = () =>{
-   // localStorage.removeItem("token");
-    //localStorage.removeItem("logged");
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = '/#/login';  
   }
   render() {

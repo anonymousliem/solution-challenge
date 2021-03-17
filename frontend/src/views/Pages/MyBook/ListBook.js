@@ -1,4 +1,4 @@
-import { urlAlldata } from "../../../Constant";
+import { urlMyBook } from "../../../Constant";
 import React, { Component, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
@@ -32,7 +32,7 @@ const DefaultHeader = React.lazy(() =>
   import("../../../containers/DefaultLayout/DefaultHeader")
 );
 
-class ListBook extends Component {
+class MyBook extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,20 +77,6 @@ class ListBook extends Component {
     ) {
       this.props.history.push("/login");
     }
-    axios({
-      method: "get",
-      url: urlAlldata,
-    })
-      .then((data) => {
-        this.setState({
-          results: data.data,
-          loading: true,
-        });
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   render() {
@@ -174,4 +160,4 @@ class ListBook extends Component {
   }
 }
 
-export default ListBook;
+export default MyBook;

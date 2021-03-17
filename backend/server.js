@@ -6,6 +6,7 @@ const multer = require('multer')
 const uploadImage = require('./helpers/helpers')
 require('dotenv').config();
 var cors = require('cors')
+var uuid = require("uuid");
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors())
@@ -21,7 +22,7 @@ const conn = mysql.createConnection({
 conn.connect((err) =>{
      if (!err) {
         console.log("Connected");
-        var sqlTableAccount = "CREATE TABLE IF NOT EXISTS account (id_account INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id_account)) ";
+        var sqlTableAccount = "CREATE TABLE IF NOT EXISTS account (id_account INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id_account)) ";
         
         conn.query(sqlTableAccount, function (err, result) {
           var checkRowAccount = "SELECT COUNT(*) as total FROM account";
@@ -93,6 +94,9 @@ conn.connect((err) =>{
 });
 
 /**** START  CRUD ACCOUNT *****/
+//login api
+
+
 //show all account
 app.get('/api/accounts',(req, res) => {
     let sql = "SELECT * FROM account";
@@ -143,6 +147,22 @@ app.delete('/api/accounts/:id',(req, res) => {
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     });
   });
+
+  //LOGIN USERTS
+  app.post('/api/login', function(req, res) {
+    let sql = "SELECT * FROM account WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'";
+    
+    let values = [
+      req.body.email,
+      req.body.password
+    ];
+  
+     conn.query(sql, [values],(err, results) => {
+             let random = Math.random().toString(36).substr(2, 36);
+            if(err) throw err;
+            res.send(JSON.stringify({"status": 200, "error": null, "response": results,"token": uuid.v4()}));
+          });
+  }); 
   /****  END CRUD ACCOUNT*****/
  
 /****  CRUD USER*****/
@@ -369,6 +389,14 @@ app.get('/api/alldata',(req, res) => {
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     });
   });
+
+  app.get('/api/mybooks/:id',(req, res) => {
+      let sql = "SELECT * FROM AllData WHERE id_user="+req.params.id;
+      let query = conn.query(sql, (err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      });
+    });
 /*** all data view****/
 
 /*** end data view ***/

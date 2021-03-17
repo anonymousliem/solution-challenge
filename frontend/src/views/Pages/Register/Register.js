@@ -1,13 +1,58 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import {urlRegister} from '../../../Constant'
+import axios from 'axios'
 
 class Register extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+        email : '',
+        password : ''
+    };
+  }
+
+  onChangeEmail = (e) => {
+    this.setState({
+      email : e.target.value
+    })
+  }
+
+  onchagePassword = (e) => {
+    this.setState({
+      password : e.target.value
+    })
+  }
+
+  onhandleSubmit = (event) => {
+    if (this.state.email !== "" && this.state.email !== null && this.state.password !== null && this.state.password !==""){
+        const Header = {
+          'Content-Type': 'application/json'
+        }
+      
+        const Data = {
+          email : this.state.email,
+          password : this.state.password,
+        }
+  
+      axios({
+        method: 'post',
+        url: urlRegister,
+        headers: Header,
+        data: Data,
+      }).then(data => {
+        alert("Berhasil Ditambahkan");
+        this.props.history.push('/login')
+        }).catch(err => {
+          alert("Gagal. Email sudah terdaptar sebelumnya")
+        });
+      }
+      else{
+        alert("Tidak Boleh Ada Data Yang Kosong")
+      }
+  }
   render() {
-    var token = localStorage.getItem('token');
-    var RoleId = localStorage.getItem('RoleId')
-    if (token === null || token === undefined ||RoleId === null || RoleId === undefined) {
-      this.props.history.push('/login');
-    }
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -20,17 +65,9 @@ class Register extends Component {
                     <p className="text-muted">Create your account</p>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-user"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="text" placeholder="Username" autoComplete="username" />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Email" autoComplete="email" />
+                      <Input type="text" placeholder="Email" autoComplete="email" onChange={this.onChangeEmail} />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -38,20 +75,12 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" autoComplete="new-password" />
+                      <Input type="password" placeholder="Password" autoComplete="new-password" onChange={this.onchagePassword} />
                     </InputGroup>
-                    <InputGroup className="mb-4">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-lock"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="password" placeholder="Repeat password" autoComplete="new-password" />
-                    </InputGroup>
-                    <Button color="success" block>Create Account</Button>
+                    <Button color="success" onClick={this.onhandleSubmit} block>Create Account</Button>
                   </Form>
                 </CardBody>
-                <CardFooter className="p-4">
+                {/* <CardFooter className="p-4">
                   <Row>
                     <Col xs="12" sm="6">
                       <Button className="btn-facebook mb-1" block><span>facebook</span></Button>
@@ -60,7 +89,7 @@ class Register extends Component {
                       <Button className="btn-twitter mb-1" block><span>twitter</span></Button>
                     </Col>
                   </Row>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
             </Col>
           </Row>

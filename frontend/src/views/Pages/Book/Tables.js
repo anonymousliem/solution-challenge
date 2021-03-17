@@ -80,9 +80,6 @@ componentDidMount() {
       });
   }
 
-  handleDateChange = (event) =>{
-    this.handleJS();
-  }
 
   filterList = event => {
     //var updatedList = this.state.results;
@@ -111,11 +108,6 @@ componentDidMount() {
     }
   };
 
-  handleAddAbsensi = () => {
-    this.setState({
-      show : true
-    })
-  }
 
   handleAddImage = () => {
     this.setState({
@@ -127,11 +119,22 @@ componentDidMount() {
 		this.setState({ show: false, showImage : false});
 	}
 
-	handleShow = () => {
-		this.setState({ show: true });
+
+  infoDetails = (result) => {
+    this.setState({
+      show : true,
+      judul_buku : result.judul_buku,
+      foto : result.foto,
+      penulis : result.penulis,
+      tahun_terbit : result.tahun_terbit,
+      penerbit : result.penerbit,
+      jenis : result.jenis,
+      jumlah : result.jumlah,
+      pemilik : result.nama,
+      no_telepon : result.no_telepon,
+      asal : result.asal
+    })
   }
-
-
 
 
   
@@ -153,12 +156,14 @@ componentDidMount() {
           <td>{results.jenis}</td>
           <td>{results.jumlah}</td>
           <td>
-              <img src={results.foto} style={{maxHeight:'150px'}}/></td>
+              <img src={results.foto} style={{maxHeight:'150px'}}/>
+          </td>
+        <td>{results.nama}</td>
          <td>
           <Button
-              className="btn btn-danger"
-              onClick={() => this.deleteAbsensi(results.Id)}>
-              Delete
+              className="btn btn-info"
+              onClick={() => this.infoDetails(results)}>
+              Details
             </Button>
             </td>
           
@@ -209,6 +214,86 @@ componentDidMount() {
 					</Modal.Footer>
 				</Modal>
 
+        {/* modal details buku*/}
+        <Modal show={this.state.show} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>DETAILS</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+          <center><img src={this.state.foto} style={{maxHeight:'150px'}}/></center><br />
+          <table responsive striped>
+                      <thead>
+                      </thead>
+                      <tbody>
+                     
+                        <tr>
+                        <td>Judul</td>
+                        <td>:</td>
+                        <td>{this.state.judul_buku}</td>
+                        </tr>
+                      
+                        <tr>
+                        <td>Penulis</td>
+                        <td>:</td>
+                        <td>{this.state.penulis}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Tahun Terbit</td>
+                        <td>:</td>
+                        <td>{this.state.tahun_terbit}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Penerbit</td>
+                        <td>:</td>
+                        <td>{this.state.penerbit}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Jenis</td>
+                        <td>:</td>
+                        <td>{this.state.jenis}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Jumlah</td>
+                        <td>:</td>
+                        <td>{this.state.jumlah}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Pemilik</td>
+                        <td>:</td>
+                        <td>{this.state.pemilik}</td>
+                        </tr>
+
+                        <tr>
+                        <td>No Telepon</td>
+                        <td>:</td>
+                        <td>{this.state.no_telepon}</td>
+                        </tr>
+
+                        <tr>
+                        <td>Alamat</td>
+                        <td>:</td>
+                        <td>{this.state.asal}</td>
+                        </tr>
+                        {/* <td>Penulis : {this.state.judul_buku}</td>
+                        <td>Tahun Terbit : {this.state.judul_buku}</td> */}
+                      </tbody>
+          </table>
+          </Modal.Body>
+					<Modal.Footer>
+						<Button className="btn btn-secondary" onClick={this.handleClose}>
+							Close
+            </Button>
+					<a href={"https://wa.me/"+this.state.no_telepon}>	<Button className="btn btn-info" style={{backgroundColor :'green'}}>
+							Hubungi Pemilik <img src="https://cdn2.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-whatsapp-circle-512.png" style={{maxHeight:'25px'}} />
+            </Button>
+          </a>
+					</Modal.Footer>
+				</Modal>
 
         
         <div className="row">
@@ -239,7 +324,7 @@ componentDidMount() {
                           id="myInput"
                           className="form-control form-control-md"
                           style={{ width: '100%' }}
-                          placeholder="Search By Username"
+                          placeholder="Search By Judul Buku"
                           onChange={this.filterList}
                         />
                       </Col>
@@ -258,8 +343,8 @@ componentDidMount() {
                           <th>Jenis</th>
                           <th>Jumlah</th>
                           <th>Foto</th>
+                          <th>Pemilik</th>
                           <th>Action</th>
-                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
                       <tbody>{renderresults}</tbody>

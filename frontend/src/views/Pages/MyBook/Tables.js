@@ -28,52 +28,53 @@ class Tables extends Component {
       showImage: false,
       file: null,
       showAddBook: false,
-      judul_buku : '',
-      penulis : '',
-      tahun_terbit : '',
-      penerbit : '',
-      jenis : '',
-      jumlah : '',
-      foto : ''
+      judul_buku: "",
+      penulis: "",
+      tahun_terbit: "",
+      penerbit: "",
+      jenis: "",
+      jumlah: "",
+      foto: "",
+      showEdit: false,
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleJudul = (e) => {
-      this.setState({
-        judul_buku : e.target.value
-      })
-  }
+    this.setState({
+      judul_buku: e.target.value,
+    });
+  };
   handlePenulis = (e) => {
     this.setState({
-      penulis : e.target.value
-    })
-  }
+      penulis: e.target.value,
+    });
+  };
   handleTahun = (e) => {
     this.setState({
-      tahun_terbit : e.target.value
-    })
-  }
+      tahun_terbit: e.target.value,
+    });
+  };
   handlePenerbit = (e) => {
     this.setState({
-      penerbit : e.target.value
-    })
-  }
+      penerbit: e.target.value,
+    });
+  };
   handleJenis = (e) => {
     this.setState({
-      jenis : e.target.value
-    })
-  }
+      jenis: e.target.value,
+    });
+  };
   handleJumlah = (e) => {
     this.setState({
-      jumlah : e.target.value
-    })
-  }
+      jumlah: e.target.value,
+    });
+  };
   handleFoto = (e) => {
     this.setState({
-      foto : e.target.value
-    })
-  }
+      foto: e.target.value,
+    });
+  };
   handleClick(event) {
     this.setState({
       currentPage: Number(event.target.id),
@@ -101,6 +102,50 @@ class Tables extends Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+  handleSubmitEditBuku = () => {
+    const Data = {
+      judul_buku: this.state.judul_buku,
+      id_user: sessionStorage.getItem("id_session"),
+      penulis: this.state.penulis,
+      tahun_terbit: this.state.tahun_terbit,
+      penerbit: this.state.penerbit,
+      jenis: this.state.jenis,
+      jumlah: this.state.jumlah,
+      foto: this.state.foto,
+    };
+
+    if (
+      this.state.judul_buku === null ||
+      this.state.judul_buku === "" ||
+      this.state.penulis === null ||
+      this.state.penulis === "" ||
+      this.state.tahun_terbit === null ||
+      this.state.tahun_terbit === "" ||
+      this.state.penerbit === null ||
+      this.state.penerbit === "" ||
+      this.state.jenis === null ||
+      this.state.jenis === "" ||
+      this.state.jumlah === null ||
+      this.state.jumlah === "" ||
+      this.state.foto === null ||
+      this.state.foto === ""
+    ) {
+      alert("tidak boleh ada data yang kosong");
+    } else {
+      axios({
+        method: "PUT",
+        url: urlBook + this.state.id_buku,
+        data: Data,
+      })
+        .then((data) => {
+          alert("berhasil diubah");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   componentDidMount() {
@@ -154,7 +199,12 @@ class Tables extends Component {
   };
 
   handleClose = () => {
-    this.setState({ show: false, showImage: false, showAddBook: false });
+    this.setState({
+      show: false,
+      showImage: false,
+      showAddBook: false,
+      showEdit: false,
+    });
   };
 
   infoDetails = (result) => {
@@ -187,45 +237,74 @@ class Tables extends Component {
       });
   };
 
-  handleSubmitBuku = () => {
-    const Data = {
-      "judul_buku" : this.state.judul_buku,
-      "id_user" : sessionStorage.getItem("id_session"),
-      "penulis" : this.state.penulis,
-      "tahun_terbit" : this.state.tahun_terbit,
-      "penerbit" : this.state.penerbit,
-      "jenis" : this.state.jenis,
-      "jumlah" : this.state.jumlah,
-      "foto" : this.state.foto
-  }
-
-
-  if(this.state.judul_buku === null || this.state.judul_buku === "" ||
-     this.state.penulis === null || this.state.penulis === "" ||
-     this.state.tahun_terbit === null || this.state.tahun_terbit === "" ||
-     this.state.penerbit === null || this.state.penerbit === "" ||
-     this.state.jenis === null || this.state.jenis === "" ||
-     this.state.jumlah === null || this.state.jumlah === "" ||
-     this.state.foto === null || this.state.foto === ""
-   ){
-    alert("tidak boleh ada data yang kosong")
-   }
-   else{
+  handleEdit = (results) => {
     axios({
-      method: "POST",
-      url: urlBook,
-      data : Data
+      method: "get",
+      url: urlBook + results.id_buku,
     })
       .then((data) => {
-        alert("berhasil ditambahkan");
-        window.location.reload();
+        this.setState({
+          showEdit: true,
+          judul_buku: data.data.response[0].judul_buku,
+          id_user: data.data.response[0].id_user,
+          penulis: data.data.response[0].penulis,
+          tahun_terbit: data.data.response[0].tahun_terbit,
+          penerbit: data.data.response[0].penerbit,
+          jenis: data.data.response[0].jenis,
+          jumlah: data.data.response[0].jumlah,
+          foto: data.data.response[0].foto,
+          id_buku: data.data.response[0].id_buku,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
-   }
-   
-  }
+  };
+
+  handleSubmitBuku = () => {
+    const Data = {
+      judul_buku: this.state.judul_buku,
+      id_user: sessionStorage.getItem("id_session"),
+      penulis: this.state.penulis,
+      tahun_terbit: this.state.tahun_terbit,
+      penerbit: this.state.penerbit,
+      jenis: this.state.jenis,
+      jumlah: this.state.jumlah,
+      foto: this.state.foto,
+    };
+
+    if (
+      this.state.judul_buku === null ||
+      this.state.judul_buku === "" ||
+      this.state.penulis === null ||
+      this.state.penulis === "" ||
+      this.state.tahun_terbit === null ||
+      this.state.tahun_terbit === "" ||
+      this.state.penerbit === null ||
+      this.state.penerbit === "" ||
+      this.state.jenis === null ||
+      this.state.jenis === "" ||
+      this.state.jumlah === null ||
+      this.state.jumlah === "" ||
+      this.state.foto === null ||
+      this.state.foto === ""
+    ) {
+      alert("tidak boleh ada data yang kosong");
+    } else {
+      axios({
+        method: "POST",
+        url: urlBook,
+        data: Data,
+      })
+        .then((data) => {
+          alert("berhasil ditambahkan");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   render() {
     const { results, currentPage, resultsPerPage } = this.state;
     const indexOfLastTodo = currentPage * resultsPerPage;
@@ -257,7 +336,7 @@ class Tables extends Component {
             </Button>{" "}
             <Button
               className="btn btn-warning"
-              onClick={() => this.infoDetails(results)}
+              onClick={() => this.handleEdit(results)}
             >
               Edit
             </Button>{" "}
@@ -482,6 +561,84 @@ class Tables extends Component {
           </Modal.Footer>
         </Modal>
 
+        {/*Modal EDIT */}
+        <Modal show={this.state.showEdit} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>EDIT Buku</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              Judul Buku
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handleJudul}
+                  placeholder={this.state.judul_buku}
+                />
+              </InputGroup>
+              Penulis
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handlePenulis}
+                  placeholder={this.state.penulis}
+                />
+              </InputGroup>
+              Tahun Terbit
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handleTahun}
+                  placeholder={this.state.tahun_terbit}
+                />
+              </InputGroup>
+              Penerbit
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handlePenerbit}
+                  placeholder={this.state.penerbit}
+                />
+              </InputGroup>
+              Jenis
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handleJenis}
+                  placeholder={this.state.jenis}
+                />
+              </InputGroup>
+              Jumlah
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handleJumlah}
+                  placeholder={this.state.jumlah}
+                />
+              </InputGroup>
+              Foto
+              <InputGroup className="mb-3">
+                <Input
+                  type="text"
+                  onChange={this.handleFoto}
+                  placeholder={this.state.foto}
+                />
+              </InputGroup>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btn btn-secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+            <Button
+              className="btn btn-info"
+              onClick={this.handleSubmitEditBuku}
+            >
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <div className="row"></div>
 
         <div className="animated fadeIn">
@@ -492,7 +649,7 @@ class Tables extends Component {
                   <CardHeader>
                     <Row>
                       <Col>
-                        <i className="fa fa-user" /> <b>&nbsp;List All</b>
+                        <i className="fa fa-user" /> <b>&nbsp;List My Books</b>
                         <Button
                           style={{ marginLeft: 10 }}
                           color="primary"

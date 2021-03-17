@@ -24,18 +24,57 @@ conn.connect((err) =>{
         var sqlTableAccount = "CREATE TABLE IF NOT EXISTS account (id_account INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id_account)) ";
         
         conn.query(sqlTableAccount, function (err, result) {
-          if (err) throw err;
+          var checkRowAccount = "SELECT COUNT(*) as total FROM account";
+          conn.query(checkRowAccount, function(errs, results)
+          {
+            if(results[0].total == 0){
+              var sqlAccountDummy="INSERT INTO account (id_account, email, password) VALUES ('1','muslim@gmail.com','Standar123.'),('2','example@gmail.com','Standar123.')";
+              conn.query(sqlAccountDummy, function(errs, resultst)
+              {
+                if(errs) throw errs; 
+              })  
+              if (err) throw err;
+            }
+            if(errs) throw errs; 
+          }) 
         });
   
-        var sqlTableUser = "CREATE TABLE IF NOT EXISTS user (id_user INT NOT NULL AUTO_INCREMENT, nama VARCHAR(255) NOT NULL, no_telepon INT NOT NULL, asal VARCHAR(255) NOT NULL, identitas VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, photo VARCHAR(255), PRIMARY KEY (id_user), FOREIGN KEY(id_user) REFERENCES account(id_account))";
+        var sqlTableUser = "CREATE TABLE IF NOT EXISTS user (id_user INT NOT NULL AUTO_INCREMENT, nama VARCHAR(255) NOT NULL, no_telepon VARCHAR(255) NOT NULL, asal VARCHAR(255) NOT NULL, identitas VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, photo VARCHAR(255), PRIMARY KEY (id_user), FOREIGN KEY(id_user) REFERENCES account(id_account))";
         
         conn.query(sqlTableUser, function (err, result) {
-          if (err) throw err;
+          var checkRowUser = "SELECT COUNT(*) as total FROM user";
+          conn.query(checkRowUser, function(errs, results)
+          {
+            if(results[0].total == 0){
+              var sqlUserDummy="INSERT INTO user (id_user, nama, no_telepon, asal, identitas, status, photo) VALUES ('1','muslim','6281234567890', 'jl.kejaksaan agung no 12 medan', '12345678890' ,'verified','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'),('2','example','628123123123', 'jl. sisimangaraja no 12 jakarta','12331121213','verified','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png')";
+              conn.query(sqlUserDummy, function(errs, resultst)
+              {
+                if(errs) throw errs; 
+              })  
+              if (err) throw err;
+            }
+            if(errs) throw errs; 
+          }) 
+
+
         });
     
         var sqlTableBuku = "CREATE TABLE IF NOT EXISTS buku (id_buku INT NOT NULL AUTO_INCREMENT, judul_buku VARCHAR(255) NOT NULL, id_user INT NOT NULL, penulis VARCHAR(255) NOT NULL, tahun_terbit INT NOT NULL, penerbit VARCHAR(255) NOT NULL, jenis VARCHAR(255) NOT NULL, jumlah INT NOT NULL, foto VARCHAR(255), PRIMARY KEY(id_buku), FOREIGN KEY(id_user) REFERENCES user(id_user) )";
         conn.query(sqlTableBuku, function (err, result) {
-            if (err) throw err;
+          var checkRowBuku = "SELECT COUNT(*) as total FROM buku";
+          conn.query(checkRowBuku, function(errs, results)
+          {
+            if(results[0].total == 0){
+              var sqlBukuDummy="INSERT INTO buku (id_buku, judul_buku, id_user, penulis, tahun_terbit, penerbit, jenis, jumlah, foto) VALUES ('1', 'bumi', '1', 'tere liye', '2020', 'gramedia', 'novel fiksi', '1', 'https://www.bukukita.com/babacms/displaybuku/95219_f.jpg'),('2', 'bulan', '1', 'tere liye', '2020', 'gramedia', 'novel fiksi', '1', 'https://www.bukukita.com/babacms/displaybuku/95221_f.jpg'),('3', 'matahari', '2', 'tere liye', '2020', 'gramedia', 'novel fiksi', '1', 'https://ebooks.gramedia.com/ebook-covers/33455/big_covers/ID_GPU2016MTH07MATA_B.jpg'),('4', 'komet', '2', 'tere liye', '2020', 'gramedia', 'novel fiksi', '1', 'https://inc.mizanstore.com/aassets/img/com_cart/produk/komet-tere-liye.jpg')";
+              conn.query(sqlBukuDummy, function(errs, resultst)
+              {
+                if(errs) throw errs; 
+              })  
+              if (err) throw err;
+            }
+            if(errs) throw errs; 
+          }) 
+
         });
     
         var sqlTablePeminjaman = "CREATE TABLE IF NOT EXISTS peminjaman (id_peminjaman INT NOT NULL AUTO_INCREMENT, tanggal_pinjam DATE, tanggal_kembali DATE, id_buku INT NOT NULL, id_user INT NOT NULL, PRIMARY KEY(id_peminjaman), FOREIGN KEY(id_user) REFERENCES user(id_user), FOREIGN KEY(id_buku) REFERENCES buku(id_buku) ) ";
@@ -47,8 +86,6 @@ conn.connect((err) =>{
         conn.query(sqlViewAllDatas, function (err, result) {
             if (err) throw err;
         });
-
-    
       } else {
         console.log("Connection Failed");
       }

@@ -1,6 +1,7 @@
 #credential
-backend/config/keys.json
-/config/keys.json
+backend/config/ok.json
+/config/ok.json
+ok.json
 # Logs
 logs
 *.log

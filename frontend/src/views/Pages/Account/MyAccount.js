@@ -1,4 +1,4 @@
-import { urlAlldata } from "../../../Constant";
+import FormMyAccount from "./FormMyAccount";
 import React, { Component, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
@@ -103,7 +103,7 @@ class MyAccount extends Component {
             <AppBreadcrumb appRoutes={routes} router={router} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
-                <p>a</p>
+                <FormMyAccount />
 
                 <Switch>
                   {routes.map((route, idx) => {

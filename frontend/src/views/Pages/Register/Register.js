@@ -1,57 +1,75 @@
-import React, { Component } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import {urlRegister} from '../../../Constant'
-import axios from 'axios'
+import React, { Component } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Col,
+  Container,
+  Form,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Row,
+} from "reactstrap";
+import { urlRegister } from "../../../Constant";
+import axios from "axios";
 
 class Register extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
-        email : '',
-        password : ''
+      email: "",
+      password: "",
     };
   }
 
   onChangeEmail = (e) => {
     this.setState({
-      email : e.target.value
-    })
-  }
+      email: e.target.value,
+    });
+  };
 
   onchagePassword = (e) => {
     this.setState({
-      password : e.target.value
-    })
-  }
+      password: e.target.value,
+    });
+  };
 
   onhandleSubmit = (event) => {
-    if (this.state.email !== "" && this.state.email !== null && this.state.password !== null && this.state.password !==""){
-        const Header = {
-          'Content-Type': 'application/json'
-        }
-      
-        const Data = {
-          email : this.state.email,
-          password : this.state.password,
-        }
-  
+    if (
+      this.state.email !== "" &&
+      this.state.email !== null &&
+      this.state.password !== null &&
+      this.state.password !== ""
+    ) {
+      const Header = {
+        "Content-Type": "application/json",
+      };
+
+      const Data = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+
       axios({
-        method: 'post',
+        method: "post",
         url: urlRegister,
         headers: Header,
         data: Data,
-      }).then(data => {
-        alert("Berhasil Ditambahkan");
-        this.props.history.push('/login')
-        }).catch(err => {
-          alert("Gagal. Email sudah terdaptar sebelumnya")
+      })
+        .then((data) => {
+          alert("Berhasil Ditambahkan");
+          this.props.history.push("/login");
+        })
+        .catch((err) => {
+          alert("Gagal. Email sudah terdaptar sebelumnya");
         });
-      }
-      else{
-        alert("Tidak Boleh Ada Data Yang Kosong")
-      }
-  }
+    } else {
+      alert("Tidak Boleh Ada Data Yang Kosong");
+    }
+  };
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -67,7 +85,12 @@ class Register extends Component {
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Email" autoComplete="email" onChange={this.onChangeEmail} />
+                      <Input
+                        type="text"
+                        placeholder="Email"
+                        autoComplete="email"
+                        onChange={this.onChangeEmail}
+                      />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -75,9 +98,16 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" autoComplete="new-password" onChange={this.onchagePassword} />
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        autoComplete="new-password"
+                        onChange={this.onchagePassword}
+                      />
                     </InputGroup>
-                    <Button color="success" onClick={this.onhandleSubmit} block>Create Account</Button>
+                    <Button color="success" onClick={this.onhandleSubmit} block>
+                      Create Account
+                    </Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">

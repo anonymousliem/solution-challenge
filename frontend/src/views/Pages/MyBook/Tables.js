@@ -14,7 +14,7 @@ import { Form } from "react-bootstrap";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { urlBlob, urlMyBook, urlBook } from "../../../Constant";
+import { urlBlob, urlMyBook, urlBook, urlUser } from "../../../Constant";
 
 class Tables extends Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class Tables extends Component {
       jumlah: "",
       foto: "",
       showEdit: false,
+      exist: true,
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -147,8 +148,34 @@ class Tables extends Component {
         });
     }
   };
+  checkProfile = () => {
+    axios({
+      method: "get",
+      url: urlUser + sessionStorage.getItem("id_session"),
+    })
+      .then((data) => {
+        if (data.data.response.length !== 0) {
+          this.setState({
+            exist: true,
+          });
+        } else {
+          this.setState({
+            exist: false,
+          });
+        }
+
+        this.setState({
+          loading: true,
+        });
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   componentDidMount() {
+    this.checkProfile();
     axios({
       method: "get",
       url: urlMyBook + sessionStorage.getItem("id_session"),
@@ -193,9 +220,13 @@ class Tables extends Component {
   };
 
   handleAddBooks = () => {
-    this.setState({
-      showAddBook: true,
-    });
+    if (this.state.exist === false) {
+      alert("Please Complete Your Profile Before Add Book");
+    } else {
+      this.setState({
+        showAddBook: true,
+      });
+    }
   };
 
   handleClose = () => {

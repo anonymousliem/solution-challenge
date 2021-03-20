@@ -3,8 +3,6 @@ import React, { Component, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
 import { Container } from "reactstrap";
-import Tables from "./Tables";
-import axios from "axios";
 import {
   AppAside,
   AppFooter,
@@ -32,7 +30,7 @@ const DefaultHeader = React.lazy(() =>
   import("../../../containers/DefaultLayout/DefaultHeader")
 );
 
-class ListBook extends Component {
+class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,20 +75,6 @@ class ListBook extends Component {
     ) {
       this.props.history.push("/login");
     }
-    axios({
-      method: "get",
-      url: urlAlldata,
-    })
-      .then((data) => {
-        this.setState({
-          results: data.data,
-          loading: true,
-        });
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   render() {
@@ -119,7 +103,7 @@ class ListBook extends Component {
             <AppBreadcrumb appRoutes={routes} router={router} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
-                <Tables />
+                <p>a</p>
 
                 <Switch>
                   {routes.map((route, idx) => {
@@ -153,4 +137,4 @@ class ListBook extends Component {
   }
 }
 
-export default ListBook;
+export default MyAccount;

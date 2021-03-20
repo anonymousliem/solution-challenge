@@ -4,7 +4,6 @@ import { Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
 import { Container } from "reactstrap";
 import Tables from "./Tables";
-import axios from "axios";
 import {
   AppAside,
   AppFooter,
@@ -106,27 +105,6 @@ class MyBook extends Component {
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Tables />
-                {/* {this.state.results.map(datas => 
-                 <Card style={{marginLeft:'20px', display:'inline-block', maxWidth:'300px'}}>
-                 <Card.Img style={{height:'200px'}} variant="top" src={datas.foto} />
-                 <Card.Body>
-                   <Card.Title>{datas.judul_buku}</Card.Title>
-                   <Card.Text>
-                     Penulis : {datas.penulis}<br />
-                     Tahun Terbit : {datas.tahun_terbit} <br />
-                     Penerbit : {datas.penerbit}<br />
-                     jenis : {datas.jenis}<br />
-                     jumlah : {datas.jumlah}
-                   </Card.Text>
-                 </Card.Body>
-                 <Card.Footer>
-                 <center> <button class="btn-info">Detail</button></center>
-                 </Card.Footer>
-               </Card>
-
-
-               
-               )}    */}
 
                 <Switch>
                   {routes.map((route, idx) => {

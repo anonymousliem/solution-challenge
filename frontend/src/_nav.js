@@ -17,6 +17,11 @@ export default {
       name: 'MY BOOK',
       url: '/books/mybook',
       icon: 'icon-star'
+    },
+    {
+      name: 'MY ACCOUNT',
+      url: '/account/myaccount',
+      icon: 'icon-puzzle'
     }
   ],
 };

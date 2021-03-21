@@ -8,7 +8,6 @@ import {
   Table,
   Button,
 } from "reactstrap";
-import { Form } from "react-bootstrap";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";

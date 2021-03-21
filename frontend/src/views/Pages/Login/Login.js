@@ -12,9 +12,8 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  CardImg,
+  
 } from "reactstrap";
-import Logo from "../../../assets/img/brand/eworkplace3.svg";
 import axios from "axios";
 import { urlLogin } from "../../../Constant";
 class Login extends Component {

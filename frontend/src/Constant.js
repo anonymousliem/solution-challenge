@@ -1,4 +1,4 @@
-var url = "https://dsc-undip-solution-challenge.et.r.appspot.com/"
+var url = "YOUR_BACKEND_URL"
 export const urlAlldata=url+"api/alldata";
 export const urlBlob =url+"uploads";
 export const urlRegister=url+"api/accounts";

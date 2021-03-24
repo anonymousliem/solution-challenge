@@ -19,7 +19,7 @@ Project is created with:
 * NPM version: V6.14.6
 * Google SQL
 * Google Cloud Storage
-* Goole App Service
+* Goole App Engine
 	
 ## Setup
 To run this project, install it locally using npm:
@@ -58,7 +58,7 @@ BUCKET_NAME=YOUR_BUCKET_NAME
 
 > Configuration Node Module
 ```
-#in backend directory
+# in backend directory
 
 # to install all depedencies
 npm install
@@ -67,71 +67,63 @@ npm install
 npm start
 ```
 
-## Next step
-
-``` bash
-# in your app directory
-# generate laravel APP_KEY
-$ php artisan key:generate
-
-# run database migration and seed
-$ php artisan migrate:refresh --seed
-
-# generate mixing
-$ npm run dev
-
-# and repeat generate mixing
-$ npm run dev
+> Deploy backend to Google Cloud App Engine
 ```
+# In backend directory
 
-## Usage
-
-``` bash
-# start local server
-$ php artisan serve
-``` 
-
-## What's included
-
-Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
-
+# Make sure you already install GOOGLE CLOUD SDK
+# Deploy to Google Cloud App Engine
+gcloud app deploy
 
 ```
-├── public/          #static files
-│   ├── uploads/      #your upload file will save in this directory
-│   └── index.html   #html template
-│
-|__ app/Http/Controller #configuration controller
-|
-|
-├── routes/             #config route
+## What's included in backend
+
+```
+├── Config/            #Config Your Google Cloud Service Account Key For Google Cloud Storage
+│   ├── key.json/      #Upload Your key.json
 │   
-│__ resources/views     #code view
+│__ .env	       #Config database, project id, bucket 
+|__ server.js          #define route and endpoint for backend
 |
 |
 └── package.json
+```
+
+## Setup Frontend
+```
+# go into backend's directory
+$ cd frontend
+```
+
+> Configuration Constant
+- change your backend url in '../frontend/src/Constant'
+ 
+> Configuration Node Module
+```
+# in frontend directory
+
+# to install all depedencies
+npm install
+
+# to run frontend
+npm start
+```
+
+## What's included in Frontend
+Frontend using template from <a href="https://coreui.io/"> core ui </a>
+```
+├── src /           
+│   ├── Constant.js      #congfiguration backend url
+|   ├── App.js           #define route and component
+|   ├── _nav.js          #configuration sidebar
+|   ├── views	
+|	 ├── Pages       # Configuration per pages	
 |
-|__ composer.json
+└── package.json
 ```
 
 ## Features
-in this system any 3 role : admin, operator, user
-* Admin and user can create, read, update, delete Maps from table
-* Admin and user can add, delete marker from maps
-* Admin and user can draw polygon in maps and can download file .geojson from polygon
-* Admin and user can export table from maps table to excel
-* Admin and user can upload file csv to insert in database
-* Admin and operator can create, read, delete account
-* Admin and user can create polygon from maps
-* Admin and user can create, read, update, detele polygon from table
-
-## Info
-if you want to show data from geojson, you can drag and drop your geojson file to https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop
-<br>
-<br>
-open folder '../samplefiles' to get .sql or if you want to use sample file
-<br>
-> list User
-* admin -> admin@gmail.com, password : admin
-* operator -> operator.com, password : operator
-* user -> user@gmail.com, password : user
+* Register & Login
+* Show and search list all book
+* CRUD My Book
+* Add and update personal info

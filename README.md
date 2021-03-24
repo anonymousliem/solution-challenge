@@ -17,7 +17,7 @@ This project is Website where show catalog of book that availible to borrow. If 
 Project is created with:
 * Node version: V12.18.4
 * NPM version: V6.14.6
-* Google SQL
+* Google Cloud SQL
 * Google Cloud Storage
 * Goole App Engine
 	
@@ -127,3 +127,6 @@ Frontend using template from <a href="https://coreui.io/"> core ui </a>
 * Show and search list all book
 * CRUD My Book
 * Add and update personal info
+
+## Info
+Demo : http://35.232.74.17

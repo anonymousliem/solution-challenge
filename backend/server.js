@@ -7,7 +7,7 @@ const uploadImage = require("./helpers/helpers");
 require("dotenv").config();
 var cors = require("cors");
 var uuid = require("uuid");
-
+require("./spanner.js")  
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());

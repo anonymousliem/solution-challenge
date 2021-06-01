@@ -35,16 +35,7 @@ class HomePage extends Component {
                 </h1>
               </center>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+              An application to improve reading literacy in Indonesia through a website that includes a feature to view books that are available to borrow and can be obtained easily because the book owners can share about their books to those who have the interest to read so that the website can make it easier for users to find the desired book by looking at the stock of books owned by other people and would be able to read the book without buying it or come to the library directly. The purpose of the application is to increase the level of reading literacy in Indonesia and to reach out Sustainable Development Goals number 4 about quality education.
               </p>
               <center>
                 <div>
@@ -65,27 +56,20 @@ class HomePage extends Component {
         </Container>
 
         <Container>
-          <Row xs="1" sm="1" md="2" style={{ marginTop: "2%" }}>
+          <Row xs="1" sm="1" md="3" style={{ marginTop: "2%" }}>
             <Col>
               <Card>
                 <CardImg
                   top
                   width="100%"
                   style={{ height: "10%" }}
-                  src="https://icons-for-free.com/iconfiles/png/512/business+face+people+icon-1320086457520622872.png"
-                  alt="Card image cap"
+                  src="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_250,q_auto:good,w_250/v1/gcs/platform-data-dsc/avatars/muslim_muslim.jpeg"
+                  alt="Muslim"
                 />
                 <CardBody>
-                  <CardTitle tag="h5">Card Title</CardTitle>
+                  <CardTitle tag="h5">Muslim</CardTitle>
                   <CardText>
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </CardText>
-                  <CardText>
-                    <small className="text-muted">
-                      Last updated 3 mins ago
-                    </small>
+                    Member of DSC Diponegoro University
                   </CardText>
                 </CardBody>
               </Card>
@@ -96,20 +80,30 @@ class HomePage extends Component {
                   top
                   width="100%"
                   style={{ height: "10%" }}
-                  src="https://icons-for-free.com/iconfiles/png/512/business+face+people+icon-1320086457520622872.png"
+                  src="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_250,q_auto:good,w_250/v1/gcs/platform-data-dsc/avatars/arifatul_khasanah.png"
                   alt="Card image cap"
                 />
                 <CardBody>
-                  <CardTitle tag="h5">Card Title</CardTitle>
+                  <CardTitle tag="h5">Arifatul Khasanah</CardTitle>
                   <CardText>
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
+                  Member of DSC Diponegoro University
                   </CardText>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <CardImg
+                  top
+                  width="100%"
+                  style={{ height: "10%" }}
+                  src="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_250,q_auto:good,w_250/v1/gcs/platform-data-dsc/avatars/erika_simanjuntak.jpg"
+                  alt="Erika"
+                />
+                <CardBody>
+                  <CardTitle tag="h5">Erika Simanjuntak</CardTitle>
                   <CardText>
-                    <small className="text-muted">
-                      Last updated 3 mins ago
-                    </small>
+                  Member of DSC Diponegoro University
                   </CardText>
                 </CardBody>
               </Card>

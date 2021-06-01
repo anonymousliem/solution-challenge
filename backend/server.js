@@ -7,6 +7,7 @@ const uploadImage = require("./helpers/helpers");
 require("dotenv").config();
 var cors = require("cors");
 var uuid = require("uuid");
+
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
@@ -424,6 +425,7 @@ app.post("/uploads", async (req, res, next) => {
     next(error);
   }
 });
+
 /*** END MULTER ***/
 app.get("/api/alldata", (req, res) => {
   let sql = "SELECT * FROM AllData";
@@ -443,8 +445,16 @@ app.get("/api/mybooks/:id", (req, res) => {
 /*** all data view****/
 
 /*** end data view ***/
+
+app.get('/hmm', (req, res) => {
+
+  res.send('Hello World!!!')
+
+})
+
 //Server listening
 var port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log("Server started on port 4000...");
+
 });

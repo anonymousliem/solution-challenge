@@ -40,20 +40,23 @@ $ cd backend
 > Configuration Database
 - Rename sample.copy.env to .env
 - Change configuration with your database (this app using MySQL) : 
+```
 DB_HOST=YOUR_DATABASE_HOST
 DB_USER=YOUR_DATABASE_USER
 DB_PASS=YOUR_DATABASE_PASSWORD
 DB_NAME=YOUR_DATABASE_NAME
+```
 
 > Configuration Google Cloud Spanner
-- Don't forget to enable Cloud Spanner API(https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), create and set up credential. For reference you can check(https://cloud.google.com/docs/authentication/getting-started )
+- Don't forget to enable [Cloud Spanner API](https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started )
 
 - infile .env Change configuration with your spanner configuration
+```
 projectId=YOUR_SPANNER_PROJECT_ID
 instanceId=YOUR_SPANNER_INSTANCE_ID
 databaseId=YOUR_DATABASE_SPANNER_ID
 tableName=YOUR_TABLE_SPANNER
- 
+```
 
 > Configuration Google Cloud Key
 - In file .env change with your own configuration : 

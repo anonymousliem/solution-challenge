@@ -1,16 +1,19 @@
+const {Spanner} = require('@google-cloud/spanner');
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const mysql = require("mysql");
 const multer = require("multer");
 const uploadImage = require("./helpers/helpers");
+const cors = require("cors");
+const uuid = require("uuid");
+const { nanoid } = require('nanoid');
 require("dotenv").config();
-var cors = require("cors");
-var uuid = require("uuid");
-require("./spanner.js")  
+
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
+
 //create database connection
 const conn = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -18,6 +21,7 @@ const conn = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
+
 //connect to database
 conn.connect((err) => {
   if (!err) {
@@ -90,6 +94,20 @@ conn.connect((err) => {
     console.log("Connection Failed");
   }
 });
+
+/** Start Setting SPANNER */
+const spanner = new Spanner({
+  projectId: process.env.projectId,
+});
+// Initialize spanner instance
+const instance = spanner.instance(process.env.instanceId);
+// Initialize database
+const databaseId = process.env.databaseId;
+const database = instance.database(databaseId);
+const tableNote = database.table(process.env.tableName);
+//const tableNote = database.table(process.env.tableName);
+
+/** END Setting SPANNER */
 
 /**** START  CRUD ACCOUNT *****/
 //login api
@@ -446,11 +464,144 @@ app.get("/api/mybooks/:id", (req, res) => {
 
 /*** end data view ***/
 
-app.get('/hmm', (req, res) => {
 
-  res.send('Hello World!!!')
+/** START CRUD NOTE USING SPANNER*/
 
-})
+//function get all notes
+async function getAllNotes() {
+  const query = {
+    sql: 'SELECT NotesId, AccountId, Note FROM Notes',
+  };
+
+  let result = await database.run(query);
+  if (result[0]) {
+    var rows = result[0].map((row) => row.toJSON());
+    return rows;
+  } else {
+    return null;
+  }
+}
+
+//function get note by id
+async function getNotesById(id) {
+    const query = {
+      sql: 'SELECT AccountId, Note FROM Notes WHERE NotesId=' + id,
+    };
+  
+    let result = await database.run(query);
+    if (result[0]) {
+      var rows = result[0].map((row) => row.toJSON());
+      return rows;
+    } else {
+      return null;
+    }
+}
+
+//function delete note by id
+async function DeleteNoteById(id) {
+    database.runTransaction(async (err, transaction) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    try {
+      const [rowCount] = await transaction.runUpdate({
+        sql: 'DELETE FROM Notes WHERE NotesId=' + id,
+      });
+      await transaction.commit();
+    } catch (err) {
+      console.error('ERROR:', err);
+    } 
+  });
+}
+
+//get all note
+app.get("/spanner", async (req, res) => {
+  try {
+    const args = process.argv.slice(2);
+    
+    let data = await getAllNotes(...args);
+    if (data.length === 0) {
+
+        res.status(404).send("No record found")
+    }else{
+      res.send(data)
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ err });
+  }
+});
+
+//add note using spanner
+app.post("/spanner/", async (req, res) => {
+  try {
+      await tableNote.insert([
+          {NotesId : nanoid(16) , AccountId: req.body.AccountId, Note: req.body.Note}
+      ])
+     res.status(201).send("data added!");
+  } catch (err) {
+  console.log("failed")
+  res.status(500).send({'error' : err});
+  }
+});
+
+
+//get note by id
+app.get("/spanner/:id", async (req, res) => {
+  try {
+    
+    let data = await getNotesById("'"+req.params.id+"'");
+    
+    if (data.length == 0) {
+
+        res.status(404).send("No record found")
+    }else{
+      res.send(data)
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ err });
+  }
+});
+
+//edit note by id
+app.put("/spanner/:id", async (req, res) => {
+  try {
+    let data = await getNotesById("'"+req.params.id+"'");
+      
+    if (data.length == 0) {
+
+        res.status(404).send("No record found")
+    }else{
+      await tableNote.update([
+        {NotesId : req.params.id , AccountId: req.body.AccountId, Note: req.body.Note}
+    ])
+        res.status(202).send("data updated!");
+    }
+  }catch (err) {
+  console.log("failed")
+  res.status(500).send({err});
+  }
+});
+
+app.delete("/spanner/:id", async (req, res) => {
+  try {
+    let data = await getNotesById("'"+req.params.id+"'");
+      
+    if (data.length == 0) {
+
+        res.status(404).send("No record found")
+    }else{
+      await DeleteNoteById("'"+req.params.id+"'");
+      res.status(202).send("data deleted!");
+    }
+  } catch (err) {
+  res.status(500).send({err});
+  console.log(err)
+  }
+});
+/*** END CRUD NOTE USING SPANNER */
 
 //Server listening
 var port = process.env.PORT || 4000;

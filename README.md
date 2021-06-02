@@ -18,7 +18,7 @@ Project is created with:
 * Google Cloud SQL
 * Google Cloud Storage
 * Goole App Engine
-	
+* Google Cloud Spanner	
 ## Setup
 To run this project, install it locally using npm:
 
@@ -44,6 +44,16 @@ DB_HOST=YOUR_DATABASE_HOST
 DB_USER=YOUR_DATABASE_USER
 DB_PASS=YOUR_DATABASE_PASSWORD
 DB_NAME=YOUR_DATABASE_NAME
+
+> Configuration Google Cloud Spanner
+- Don't forget to enable Cloud Spanner API(https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), create and set up credential. For reference you can check(https://cloud.google.com/docs/authentication/getting-started )
+
+- infile .env Change configuration with your spanner configuration
+projectId=YOUR_SPANNER_PROJECT_ID
+instanceId=YOUR_SPANNER_INSTANCE_ID
+databaseId=YOUR_DATABASE_SPANNER_ID
+tableName=YOUR_TABLE_SPANNER
+ 
 
 > Configuration Google Cloud Key
 - In file .env change with your own configuration : 
@@ -80,10 +90,10 @@ gcloud app deploy
 ├── Config/            #Config Your Google Cloud Service Account Key For Google Cloud Storage
 │   ├── key.json/      #Upload Your key.json
 │   
-│__ .env	       #Config database, project id, bucket 
+│__ .env	           #Config database, project id, bucket 
 |__ server.js          #define route and endpoint for backend
 |
-|
+|__ spanner.sql        #SQL for create table in spanner
 └── package.json
 ```
 
@@ -125,6 +135,10 @@ Frontend using template from <a href="https://coreui.io/"> core ui </a>
 * Show and search list all book
 * CRUD My Book
 * Add and update personal info
+* CRUD Note
 
 ## Info
 Demo : http://35.232.74.17
+
+## Postman Documentation
+https://www.getpostman.com/collections/4134b224a4d75aa3fe09

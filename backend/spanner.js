@@ -4,6 +4,8 @@ var cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
+const { nanoid } = require('nanoid');
+
 app.use(bodyParser.json());
 app.use(cors());
 // Creates spanner client
@@ -16,6 +18,7 @@ const databaseId = process.env.databaseId;
 // Initialize database
 const database = instance.database(databaseId);
 const tableNote = database.table(process.env.tableName);
+//const tableNote = database.table(process.env.tableName);
 
 app.get("/testing", (req, res) => {
   res.send("Hello World!!!");
@@ -38,6 +41,7 @@ app.get("/spanner", async (req, res) => {
     }
     res.send(data)
   } catch (err) {
+    console.log(err)
     res.status(500).send({ err });
   }
 });
@@ -45,14 +49,15 @@ app.get("/spanner", async (req, res) => {
 app.get("/spanner/:id", async (req, res) => {
     try {
       
-      let data = await getNotesById(req.params.id);
-  
+      let data = await getNotesById("'"+req.params.id+"'");
+      
       if (data == null) {
   
           res.status(404).send("No record found")
       }
       res.send(data)
     } catch (err) {
+      console.log(err)
       res.status(500).send({ err });
     }
 });
@@ -60,18 +65,29 @@ app.get("/spanner/:id", async (req, res) => {
 app.post("/spanner/", async (req, res) => {
     try {
         await tableNote.insert([
-            {AccountId: req.body.AccountId, Note: req.body.Note}
+            {NotesId : nanoid(16) , AccountId: req.body.AccountId, Note: req.body.Note}
         ])
        res.status(200).send("data added!");
     } catch (err) {
     console.log("failed")
+    res.status(500).send({err});
     }
-  });
+});
+
+app.delete("/spanner/:id", async (req, res) => {
+  try {
+    await DeleteNoteById("'"+req.params.id+"'");
+    res.status(201).send("data deleted!");
+  } catch (err) {
+  res.status(500).send({err});
+  console.log(err)
+  }
+});
 
 async function getAllNotes() {
   // The query to execute
   const query = {
-    sql: 'SELECT AccountId, Note FROM Notes',
+    sql: 'SELECT NotesId, AccountId, Note FROM Notes',
   };
 
   let result = await database.run(query);
@@ -86,7 +102,7 @@ async function getAllNotes() {
 async function getNotesById(id) {
     // The query to execute
     const query = {
-      sql: 'SELECT Note FROM Notes WHERE AccountId=' + id,
+      sql: 'SELECT Note FROM Notes WHERE NotesId=' + id,
     };
   
     let result = await database.run(query);
@@ -96,6 +112,27 @@ async function getNotesById(id) {
     } else {
       return null;
     }
+}
+
+async function DeleteNoteById(id) {
+    database.runTransaction(async (err, transaction) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    try {
+      // The WHERE clause is required for DELETE statements to prevent
+      // accidentally deleting all rows in a table.
+      // https://cloud.google.com/spanner/docs/dml-syntax#where_clause
+      const [rowCount] = await transaction.runUpdate({
+        sql: 'DELETE FROM Notes WHERE NotesId=' + id,
+      });
+      console.log(`${rowCount} records deleted from Singers.`);
+      await transaction.commit();
+    } catch (err) {
+      console.error('ERROR:', err);
+    } 
+  });
 }
 
 

@@ -60,9 +60,11 @@ tableName=YOUR_TABLE_SPANNER
 
 > Configuration Google Cloud Key
 - In file .env change with your own configuration : 
+```
 GCP_PROJECT_ID=YOUR_GCP_PROJECT_ID
 BUCKET_NAME=YOUR_BUCKET_NAME
- 
+```
+
 - Make sure you already create Google Cloud Service Account With 2 Roles : API Keys Admin & Storage Admin
 - Replace key.json in 'backend/config/key.json' with your Google Cloud Key
 - Make sure your bucket can accsess with public

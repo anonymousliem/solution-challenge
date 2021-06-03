@@ -1,4 +1,4 @@
-const {Spanner} = require('@google-cloud/spanner');
+const { Spanner } = require("@google-cloud/spanner");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -7,8 +7,10 @@ const multer = require("multer");
 const uploadImage = require("./helpers/helpers");
 const cors = require("cors");
 const uuid = require("uuid");
-const { nanoid } = require('nanoid');
-const {PubSub} = require('@google-cloud/pubsub');
+const { nanoid } = require("nanoid");
+const { PubSub } = require(`@google-cloud/pubsub`);
+const pubsub = new PubSub();
+const topicName = process.env.topicName;
 require("dotenv").config();
 
 // parse application/json
@@ -465,13 +467,12 @@ app.get("/api/mybooks/:id", (req, res) => {
 
 /*** end data view ***/
 
-
 /** START CRUD NOTE USING SPANNER*/
 
 //function get all notes
 async function getAllNotes() {
   const query = {
-    sql: 'SELECT NotesId, AccountId, Note FROM Notes',
+    sql: "SELECT NotesId, AccountId, Note FROM Notes",
   };
 
   let result = await database.run(query);
@@ -485,34 +486,34 @@ async function getAllNotes() {
 
 //function get note by id
 async function getNotesById(id) {
-    const query = {
-      sql: 'SELECT AccountId, Note FROM Notes WHERE NotesId=' + id,
-    };
-  
-    let result = await database.run(query);
-    if (result[0]) {
-      var rows = result[0].map((row) => row.toJSON());
-      return rows;
-    } else {
-      return null;
-    }
+  const query = {
+    sql: "SELECT AccountId, Note FROM Notes WHERE NotesId=" + id,
+  };
+
+  let result = await database.run(query);
+  if (result[0]) {
+    var rows = result[0].map((row) => row.toJSON());
+    return rows;
+  } else {
+    return null;
+  }
 }
 
 //function delete note by id
 async function DeleteNoteById(id) {
-    database.runTransaction(async (err, transaction) => {
+  database.runTransaction(async (err, transaction) => {
     if (err) {
       console.error(err);
       return;
     }
     try {
       const [rowCount] = await transaction.runUpdate({
-        sql: 'DELETE FROM Notes WHERE NotesId=' + id,
+        sql: "DELETE FROM Notes WHERE NotesId=" + id,
       });
       await transaction.commit();
     } catch (err) {
-      console.error('ERROR:', err);
-    } 
+      console.error("ERROR:", err);
+    }
   });
 }
 
@@ -520,48 +521,62 @@ async function DeleteNoteById(id) {
 app.get("/spanner", async (req, res) => {
   try {
     const args = process.argv.slice(2);
-    
+
     let data = await getAllNotes(...args);
     if (data.length === 0) {
-
-        res.status(404).send("No record found")
-    }else{
-      res.send(data)
+      res.status(404).send("No record found");
+    } else {
+      res.send(data);
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send({ err });
   }
 });
 
 //add note using spanner
 app.post("/spanner/", async (req, res) => {
+  var idNotes = nanoid(16) 
   try {
-      await tableNote.insert([
-          {NotesId : nanoid(16) , AccountId: req.body.AccountId, Note: req.body.Note}
-      ])
-     res.status(201).send("data added!");
+    await tableNote.insert([
+      {
+        NotesId: idNotes,
+        AccountId: req.body.AccountId,
+        Note: req.body.Note,
+      },
+    ]);
+    var dataBuffer = Buffer.from(
+      "send note with ID : " + idNotes + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
+
+    res.status(201).send("data added!");
   } catch (err) {
-  console.log("failed")
-  res.status(500).send({'error' : err});
+    console.log("failed");
+    res.status(500).send({ error: err });
   }
 });
-
 
 //get note by id
 app.get("/spanner/:id", async (req, res) => {
   try {
-    
-    let data = await getNotesById("'"+req.params.id+"'");
-    
-    if (data.length == 0) {
+    let data = await getNotesById("'" + req.params.id + "'");
 
-        res.status(404).send("No record found")
-    }else{
-      res.send(data)
+    if (data.length == 0) {
+      res.status(404).send("No record found");
+    } else {
+      res.send(data);
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send({ err });
   }
 });
@@ -569,37 +584,63 @@ app.get("/spanner/:id", async (req, res) => {
 //edit note by id
 app.put("/spanner/:id", async (req, res) => {
   try {
-    let data = await getNotesById("'"+req.params.id+"'");
-      
-    if (data.length == 0) {
+    let data = await getNotesById("'" + req.params.id + "'");
 
-        res.status(404).send("No record found")
-    }else{
+    if (data.length == 0) {
+      res.status(404).send("No record found");
+    } else {
       await tableNote.update([
-        {NotesId : req.params.id , AccountId: req.body.AccountId, Note: req.body.Note}
-    ])
-        res.status(202).send("data updated!");
+        {
+          NotesId: req.params.id,
+          AccountId: req.body.AccountId,
+          Note: req.body.Note,
+        },
+      ]);
+      var dataBuffer = Buffer.from(
+        "update note with ID : " + req.params.id + " on " + new Date().toString()
+      );
+      pubsub
+        .topic(topicName)
+        .publish(dataBuffer)
+        .then((messageId) => {
+          console.log(`Message ${messageId} published.`);
+        })
+        .catch((err) => {
+          console.error("ERROR:", err);
+        });
+      res.status(202).send("data updated!");
     }
-  }catch (err) {
-  console.log("failed")
-  res.status(500).send({err});
+  } catch (err) {
+    console.log("failed");
+    res.status(500).send({ err });
   }
 });
 
 app.delete("/spanner/:id", async (req, res) => {
   try {
-    let data = await getNotesById("'"+req.params.id+"'");
-      
-    if (data.length == 0) {
+    let data = await getNotesById("'" + req.params.id + "'");
 
-        res.status(404).send("No record found")
-    }else{
-      await DeleteNoteById("'"+req.params.id+"'");
+    if (data.length == 0) {
+      res.status(404).send("No record found");
+    } else {
+      await DeleteNoteById("'" + req.params.id + "'");
+      var dataBuffer = Buffer.from(
+        "delete note with ID : " + req.params.id + " on " + new Date().toString()
+      );
+      pubsub
+        .topic(topicName)
+        .publish(dataBuffer)
+        .then((messageId) => {
+          console.log(`Message ${messageId} published.`);
+        })
+        .catch((err) => {
+          console.error("ERROR:", err);
+        });
       res.status(202).send("data deleted!");
     }
   } catch (err) {
-  res.status(500).send({err});
-  console.log(err)
+    res.status(500).send({ err });
+    console.log(err);
   }
 });
 /*** END CRUD NOTE USING SPANNER */
@@ -608,5 +649,4 @@ app.delete("/spanner/:id", async (req, res) => {
 var port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log("Server started on port 4000...");
-
 });

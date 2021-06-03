@@ -88,7 +88,7 @@ npm install
 # to run backend
 npm start
 
-# to see subscription from google cloud pub/su
+# to see subscription from google cloud pub/sub
 - open another terminal, in backend directory run :
 node sub.js
 

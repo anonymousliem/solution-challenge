@@ -8,6 +8,7 @@ const uploadImage = require("./helpers/helpers");
 const cors = require("cors");
 const uuid = require("uuid");
 const { nanoid } = require('nanoid');
+const {PubSub} = require('@google-cloud/pubsub');
 require("dotenv").config();
 
 // parse application/json

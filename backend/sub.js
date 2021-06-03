@@ -1,8 +1,9 @@
+require("dotenv").config();
 const {PubSub} = require(`@google-cloud/pubsub`);
 
 const pubsub = new PubSub();
 
-const subscriptionName = 'projects/causal-tracker-312605/subscriptions/MyTopic-sub';
+const subscriptionName = process.env.subscriptionName;
 const timeout = 60;
 
 const subscription = pubsub.subscription(subscriptionName);

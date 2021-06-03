@@ -19,6 +19,7 @@ Project is created with:
 * Google Cloud Storage
 * Goole App Engine
 * Google Cloud Spanner	
+* Google Cloud Pub/Sub
 ## Setup
 To run this project, install it locally using npm:
 
@@ -56,6 +57,14 @@ projectId=YOUR_SPANNER_PROJECT_ID
 instanceId=YOUR_SPANNER_INSTANCE_ID
 databaseId=YOUR_DATABASE_SPANNER_ID
 tableName=YOUR_TABLE_SPANNER
+```
+> Configuration Google Cloud Pub/Sub
+- Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started )
+
+- infile .env Change configuration with your pub/sub configuration
+```
+topicName=YOUR_PUBSUB_TOPIC_NAME
+subscriptionName=YOUR_SUBSCRIPTION_NAME
 ```
 
 > Configuration Google Cloud Key
@@ -98,6 +107,7 @@ gcloud app deploy
 │__ .env	           #Config database, project id, bucket 
 |__ server.js          #define route and endpoint for backend
 |
+|__ sub.js             #subscription from google cloud pub/sub
 |__ spanner.sql        #SQL for create table in spanner
 └── package.json
 ```

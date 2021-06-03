@@ -29,4 +29,4 @@ subscription.on(`message`, messageHandler);
 setTimeout(() => {
   subscription.removeListener('message', messageHandler);
   console.log(`${messageCount} message(s) received.`);
-}, timeout * 1000);
+}, timeout * 10000000);

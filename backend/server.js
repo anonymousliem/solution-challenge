@@ -85,7 +85,18 @@ conn.connect((err) => {
     var sqlTablePeminjaman =
       "CREATE TABLE IF NOT EXISTS peminjaman (id_peminjaman INT NOT NULL AUTO_INCREMENT, tanggal_pinjam DATE, tanggal_kembali DATE, id_buku INT NOT NULL, id_user INT NOT NULL, PRIMARY KEY(id_peminjaman), FOREIGN KEY(id_user) REFERENCES user(id_user), FOREIGN KEY(id_buku) REFERENCES buku(id_buku) ) ";
     conn.query(sqlTablePeminjaman, function (err, result) {
-      if (err) throw err;
+      var checkRowPeminjaman = "SELECT COUNT(*) as total FROM peminjaman";
+      conn.query(checkRowPeminjaman, function (errs, results) {
+        if (results[0].total == 0) {
+          var sqlPeminjamanDummy =
+            "INSERT INTO `peminjaman` (`id_peminjaman`, `tanggal_pinjam`, `tanggal_kembali`, `id_buku`, `id_user`) VALUES ('1', '2021-06-08', '2021-06-10', '4', '2'), ('2', '2021-06-09', '2021-06-02', '3', '1');";
+          conn.query(sqlPeminjamanDummy, function (errs, resultst) {
+            if (errs) throw errs;
+          });
+          if (err) throw err;
+        }
+        if (errs) throw errs;
+      });
     });
 
     var sqlViewAllDatas =
@@ -589,7 +600,7 @@ app.post("/uploads", async (req, res, next) => {
     const myFile = req.file;
     const imageUrl = await uploadImage(myFile);
     var dataBuffer = Buffer.from(
-      " Upload image with url" +  imageUrl +" on " + new Date().toString()
+      " Upload image with url " +  imageUrl +" on " + new Date().toString()
     );
     pubsub
       .topic(topicName)
@@ -679,7 +690,7 @@ async function DeleteNoteById(id) {
 }
 
 //get all note
-app.get("/spanner", async (req, res) => {
+app.get("/api/notes", async (req, res) => {
   try {
     const args = process.argv.slice(2);
 
@@ -696,7 +707,7 @@ app.get("/spanner", async (req, res) => {
 });
 
 //add note using spanner
-app.post("/spanner/", async (req, res) => {
+app.post("/api/notes/", async (req, res) => {
   var idNotes = nanoid(16) 
   try {
     await tableNote.insert([
@@ -727,7 +738,7 @@ app.post("/spanner/", async (req, res) => {
 });
 
 //get note by id
-app.get("/spanner/:id", async (req, res) => {
+app.get("/api/notes/:id", async (req, res) => {
   try {
     let data = await getNotesById("'" + req.params.id + "'");
 
@@ -743,7 +754,7 @@ app.get("/spanner/:id", async (req, res) => {
 });
 
 //edit note by id
-app.put("/spanner/:id", async (req, res) => {
+app.put("/api/notes/:id", async (req, res) => {
   try {
     let data = await getNotesById("'" + req.params.id + "'");
 
@@ -777,7 +788,7 @@ app.put("/spanner/:id", async (req, res) => {
   }
 });
 
-app.delete("/spanner/:id", async (req, res) => {
+app.delete("/api/notes/:id", async (req, res) => {
   try {
     let data = await getNotesById("'" + req.params.id + "'");
 
@@ -809,5 +820,7 @@ app.delete("/spanner/:id", async (req, res) => {
 //Server listening
 var port = process.env.PORT || 4000;
 app.listen(port, () => {
+
+
   console.log("Server started on port 4000...");
 });

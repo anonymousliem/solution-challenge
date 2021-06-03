@@ -67,7 +67,7 @@ topicName=YOUR_PUBSUB_TOPIC_NAME
 subscriptionName=YOUR_SUBSCRIPTION_NAME
 ```
 
-> Configuration Google Cloud Key
+> Configuration Google Cloud Storage
 - In file .env change with your own configuration : 
 ```
 GCP_PROJECT_ID=YOUR_GCP_PROJECT_ID
@@ -87,6 +87,11 @@ npm install
 
 # to run backend
 npm start
+
+# to see subscription from google cloud pub/su
+- open another terminal, in backend directory run :
+node sub.js
+
 ```
 
 > Deploy backend to Google Cloud App Engine
@@ -152,7 +157,7 @@ Frontend using template from <a href="https://coreui.io/"> core ui </a>
 * Add and update personal info
 * CRUD Note
 
-## Info
+## Additional Info
 Demo : http://35.232.74.17
 
 ## Postman Documentation

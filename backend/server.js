@@ -108,13 +108,9 @@ const instance = spanner.instance(process.env.instanceId);
 const databaseId = process.env.databaseId;
 const database = instance.database(databaseId);
 const tableNote = database.table(process.env.tableName);
-//const tableNote = database.table(process.env.tableName);
-
 /** END Setting SPANNER */
 
 /**** START  CRUD ACCOUNT *****/
-//login api
-
 //show all account
 app.get("/api/accounts", (req, res) => {
   let sql = "SELECT * FROM account";
@@ -141,6 +137,18 @@ app.post("/api/accounts", function (req, res) {
 
   conn.query(sql, [values], (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "post account on" + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -155,15 +163,39 @@ app.put("/api/accounts/:id", (req, res) => {
     req.params.id;
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "update account with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
 
-//Delete users
+//Delete account
 app.delete("/api/accounts/:id", (req, res) => {
   let sql = "DELETE FROM account WHERE id_account=" + req.params.id + "";
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "delete account with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -180,8 +212,19 @@ app.post("/api/login", function (req, res) {
   let values = [req.body.email, req.body.password];
 
   conn.query(sql, [values], (err, results) => {
-    let random = Math.random().toString(36).substr(2, 36);
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "login user : " + req.body.email + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(
       JSON.stringify({
         status: 200,
@@ -193,6 +236,7 @@ app.post("/api/login", function (req, res) {
   });
 });
 /****  END CRUD ACCOUNT*****/
+
 /****  CRUD USER*****/
 //show all user
 app.get("/api/users", (req, res) => {
@@ -225,6 +269,18 @@ app.post("/api/users", function (req, res) {
 
   conn.query(sql, [values], (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "post user on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -247,6 +303,18 @@ app.put("/api/users/:id", (req, res) => {
     req.params.id;
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "update user with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -255,14 +323,25 @@ app.delete("/api/users/:id", (req, res) => {
   let sql = "DELETE FROM user WHERE id_user=" + req.params.id + "";
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "delete user with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
 /**** END CRUD USER*****/
 
 /*** START CRUD BUKU ***/
-
-//show all user
+//show all books
 app.get("/api/books", (req, res) => {
   let sql = "SELECT * FROM buku";
   let query = conn.query(sql, (err, results) => {
@@ -280,7 +359,7 @@ app.get("/api/books/:id", (req, res) => {
   });
 });
 
-//show single books
+//show single books filter
 app.get("/api/booksfilter", (req, res) => {
   let sql =
     "SELECT * FROM buku WHERE id_buku='" +
@@ -311,6 +390,18 @@ app.post("/api/books", function (req, res) {
 
   conn.query(sql, [values], (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "post book on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -338,6 +429,18 @@ app.put("/api/books/:id", (req, res) => {
     req.params.id;
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "update book with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -347,6 +450,18 @@ app.delete("/api/books/:id", (req, res) => {
   let sql = "DELETE FROM buku WHERE id_buku=" + req.params.id + "";
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "delete book with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -354,7 +469,6 @@ app.delete("/api/books/:id", (req, res) => {
 /**** END CRUD BOOKS*****/
 
 /**** START CRUD PINJAMAN*****/
-
 //get all pinjaman
 app.get("/api/peminjamans", (req, res) => {
   let sql = "SELECT * FROM peminjaman";
@@ -364,7 +478,7 @@ app.get("/api/peminjamans", (req, res) => {
   });
 });
 
-//show single books
+//show single peminjaman
 app.get("/api/peminjamans/:id", (req, res) => {
   let sql = "SELECT * FROM peminjaman WHERE id_peminjaman=" + req.params.id;
   let query = conn.query(sql, (err, results) => {
@@ -386,11 +500,23 @@ app.post("/api/peminjamans", function (req, res) {
 
   conn.query(sql, [values], (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "post peminjaman on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
 
-//update books
+//update peminjaman
 app.put("/api/peminjamans/:id", (req, res) => {
   let sql =
     "UPDATE peminjaman SET tanggal_pinjam='" +
@@ -405,15 +531,39 @@ app.put("/api/peminjamans/:id", (req, res) => {
     req.params.id;
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "update peminjaman with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
 
-//Delete books
+//Delete peminjaman
 app.delete("/api/peminjamans/:id", (req, res) => {
   let sql = "DELETE FROM peminjaman WHERE id_peminjaman=" + req.params.id + "";
   let query = conn.query(sql, (err, results) => {
     if (err) throw err;
+    var dataBuffer = Buffer.from(
+      "delete peminjaman with ID : " + req.params.id + " on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
@@ -433,11 +583,23 @@ app.use(multerMid.single("file"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//for upload image to google cloud storage
 app.post("/uploads", async (req, res, next) => {
   try {
     const myFile = req.file;
     const imageUrl = await uploadImage(myFile);
-
+    var dataBuffer = Buffer.from(
+      " Upload image with url" +  imageUrl +" on " + new Date().toString()
+    );
+    pubsub
+      .topic(topicName)
+      .publish(dataBuffer)
+      .then((messageId) => {
+        console.log(`Message ${messageId} published.`);
+      })
+      .catch((err) => {
+        console.error("ERROR:", err);
+      });
     res.status(200).json({
       message: "Upload was successful",
       data: imageUrl,
@@ -448,6 +610,8 @@ app.post("/uploads", async (req, res, next) => {
 });
 
 /*** END MULTER ***/
+
+/*** all data view****/
 app.get("/api/alldata", (req, res) => {
   let sql = "SELECT * FROM AllData";
   let query = conn.query(sql, (err, results) => {
@@ -463,12 +627,9 @@ app.get("/api/mybooks/:id", (req, res) => {
     res.send(JSON.stringify({ status: 200, error: null, response: results }));
   });
 });
-/*** all data view****/
-
 /*** end data view ***/
 
 /** START CRUD NOTE USING SPANNER*/
-
 //function get all notes
 async function getAllNotes() {
   const query = {

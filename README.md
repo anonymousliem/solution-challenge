@@ -20,6 +20,8 @@ Project is created with:
 * Goole App Engine
 * Google Cloud Spanner	
 * Google Cloud Pub/Sub
+* Google Firestore
+
 ## Setup
 To run this project, install it locally using npm:
 
@@ -49,7 +51,7 @@ DB_NAME=YOUR_DATABASE_NAME
 ```
 
 > Configuration Google Cloud Spanner
-- Don't forget to enable [Cloud Spanner API](https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started )
+- Don't forget to enable [Cloud Spanner API](https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your spanner configuration
 ```
@@ -59,12 +61,20 @@ databaseId=YOUR_DATABASE_SPANNER_ID
 tableName=YOUR_TABLE_SPANNER
 ```
 > Configuration Google Cloud Pub/Sub
-- Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started )
+- Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your pub/sub configuration
 ```
 topicName=YOUR_PUBSUB_TOPIC_NAME
 subscriptionName=YOUR_SUBSCRIPTION_NAME
+```
+
+> Configuration Google Cloud Firestore
+- Don't forget to enable [Cloud Firestore API](https://console.cloud.google.com/flows/enableapi?apiid=firestore.googleapis.com) [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
+
+- infile .env Change configuration with your pub/sub configuration
+```
+COLLECTION_NAME=YOUR_COLLECTION_NAME
 ```
 
 > Configuration Google Cloud Storage

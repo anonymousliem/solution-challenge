@@ -7,21 +7,24 @@ const db = new Firestore({
   keyFilename: './config/key.json',
 });
 
-const docRef = db.collection('users').doc('alovelace');
+const docRef = db.collection('membership').doc('boby');
 
 async function addCollection(){
     await docRef.set({
-        first: 'Ada',
-        last: 'Lovelace',
-        born: 1815
+        first: 'Ada 1',
+        last: 'Lovelace 2',
+        born: 1811
       });
 }
 
 async function getCollection(){
-    const snapshot = await db.collection('users').get();
-snapshot.forEach((doc) => {
-  console.log(doc.id, '=>', doc.data());
-});
+  const cityRef = db.collection('membership').doc('ani');
+  const doc = await cityRef.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+  } else {
+    console.log('Document data:', doc.data());
+  }
 }
-
+//addCollection()
 getCollection()

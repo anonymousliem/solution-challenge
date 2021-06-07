@@ -128,6 +128,8 @@ const db = new Firestore({
   projectId: process.env.projectId,
   keyFilename: './config/key.json',
 });
+
+const docRef = db.collection(process.env.COLLECTION_NAME);
 /**END SETTING FIRESTORE */
 
 /**** START  CRUD ACCOUNT *****/
@@ -825,6 +827,34 @@ app.delete("/api/notes/:id", async (req, res) => {
   }
 });
 /*** END CRUD NOTE USING SPANNER */
+
+/** START CRUD MEMBERSHIP*/
+async function getCollectionById(id){
+  const cityRef = db.collection(process.env.COLLECTION_NAME).doc(id);
+  const doc = await cityRef.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+  } else {
+    console.log('Document data:', doc.data());
+    return doc.data()
+  }
+}
+
+app.get("/api/membership/:id", async (req, res) => {
+  try {
+    let data = await getCollectionById(req.params.id);
+    if(data === undefined){
+      res.send("data not found")
+    }else{
+      res.send(data);
+    }
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+});
+/** END CRUD MEMBERSHIP*/
 
 //Server listening
 var port = process.env.PORT || 4000;

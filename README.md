@@ -51,7 +51,7 @@ DB_NAME=YOUR_DATABASE_NAME
 ```
 
 > Configuration Google Cloud Spanner
-- Don't forget to enable [Cloud Spanner API](https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
+- Don't forget to enable [Cloud Spanner API](https://console.cloud.google.com/flows/enableapi?apiid=spanner.googleapis.com), & [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your spanner configuration
 ```
@@ -61,7 +61,7 @@ databaseId=YOUR_DATABASE_SPANNER_ID
 tableName=YOUR_TABLE_SPANNER
 ```
 > Configuration Google Cloud Pub/Sub
-- Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
+- Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), & [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your pub/sub configuration
 ```
@@ -70,7 +70,7 @@ subscriptionName=YOUR_SUBSCRIPTION_NAME
 ```
 
 > Configuration Google Cloud Firestore
-- Don't forget to enable [Cloud Firestore API](https://console.cloud.google.com/flows/enableapi?apiid=firestore.googleapis.com) [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
+- Don't forget to enable [Cloud Firestore API](https://console.cloud.google.com/flows/enableapi?apiid=firestore.googleapis.com), & [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your pub/sub configuration
 ```
@@ -166,9 +166,6 @@ Frontend using template from <a href="https://coreui.io/"> core ui </a>
 * CRUD My Book
 * Add and update personal info
 * CRUD Note
-
-## Additional Info
-Demo : http://35.232.74.17
 
 ## Postman Documentation
 https://www.getpostman.com/collections/4134b224a4d75aa3fe09

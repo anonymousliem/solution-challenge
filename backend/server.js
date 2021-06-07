@@ -10,7 +10,7 @@ const uuid = require("uuid");
 const { nanoid } = require("nanoid");
 const { PubSub } = require(`@google-cloud/pubsub`);
 const pubsub = new PubSub();
-const topicName = process.env.topicName;
+const topicName = process.env.TOPIC_NAME;
 const Firestore = require('@google-cloud/firestore');
 require("dotenv").config();
 
@@ -112,21 +112,21 @@ conn.connect((err) => {
 
 /** Start Setting SPANNER */
 const spanner = new Spanner({
-  projectId: process.env.projectId,
+  projectId: process.env.PROJECT_ID,
 });
 // Initialize spanner instance
-const instance = spanner.instance(process.env.instanceId);
+const instance = spanner.instance(process.env.INSTANCE_ID);
 // Initialize database
-const databaseId = process.env.databaseId;
+const databaseId = process.env.DATABASE_ID;
 const database = instance.database(databaseId);
-const tableNote = database.table(process.env.tableName);
+const tableNote = database.table(process.env.TABLE_NAME);
 /** END Setting SPANNER */
 
 
 /**START SETTING FIRESTORE */
 const db = new Firestore({
-  projectId: process.env.projectId,
-  keyFilename: './config/key.json',
+  projectId: process.env.PROJECT_ID,
+  keyFilename: './config/keyFirestore.json',
 });
 
 const docRef = db.collection(process.env.COLLECTION_NAME);

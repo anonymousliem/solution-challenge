@@ -55,18 +55,18 @@ DB_NAME=YOUR_DATABASE_NAME
 
 - infile .env Change configuration with your spanner configuration
 ```
-projectId=YOUR_SPANNER_PROJECT_ID
-instanceId=YOUR_SPANNER_INSTANCE_ID
-databaseId=YOUR_DATABASE_SPANNER_ID
-tableName=YOUR_TABLE_SPANNER
+PROJECT_ID=YOUR_SPANNER_PROJECT_ID
+INSTANCE_ID=YOUR_SPANNER_INSTANCE_ID
+DATABASE_ID=YOUR_DATABASE_SPANNER_ID
+TABLE_NAME=YOUR_TABLE_SPANNER
 ```
 > Configuration Google Cloud Pub/Sub
 - Don't forget to enable [Cloud Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub.googleapis.com), & [create and set up credential](https://cloud.google.com/docs/authentication/getting-started)
 
 - infile .env Change configuration with your pub/sub configuration
 ```
-topicName=YOUR_PUBSUB_TOPIC_NAME
-subscriptionName=YOUR_SUBSCRIPTION_NAME
+TOPIC_NAME=YOUR_PUBSUB_TOPIC_NAME
+SUBSCRIPTION_NAME=YOUR_SUBSCRIPTION_NAME
 ```
 
 > Configuration Google Cloud Firestore
@@ -76,6 +76,7 @@ subscriptionName=YOUR_SUBSCRIPTION_NAME
 ```
 COLLECTION_NAME=YOUR_COLLECTION_NAME
 ```
+- Replace keyFirestore.json in 'backend/config/keyFirestore.json' with your Google Cloud Key
 
 > Configuration Google Cloud Storage
 - In file .env change with your own configuration : 
@@ -116,14 +117,14 @@ gcloud app deploy
 ## What's included in backend
 
 ```
-├── Config/            #Config Your Google Cloud Service Account Key For Google Cloud Storage
-│   ├── key.json/      #Upload Your key.json
-│   
-│__ .env	           #Config database, project id, bucket 
-|__ server.js          #define route and endpoint for backend
+├── Config/                #Config Your Google Cloud Service Account Key For Google Cloud Storage and Google Cloud Firestore
+│   ├── key.json           #upload your credential for google cloud storage bucket 
+│   |__ keyFirestore.json  #upload your credential for google cloud firestore 
+│__ .env	               #Config database, project id, bucket 
+|__ server.js              #define route and endpoint for backend
 |
-|__ sub.js             #subscription from google cloud pub/sub
-|__ spanner.sql        #SQL for create table in spanner
+|__ sub.js                 #subscription from google cloud pub/sub
+|__ spanner.sql            #SQL for create table in spanner
 └── package.json
 ```
 

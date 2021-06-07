@@ -3,7 +3,7 @@ const {PubSub} = require(`@google-cloud/pubsub`);
 
 const pubsub = new PubSub();
 
-const subscriptionName = process.env.subscriptionName;
+const subscriptionName = process.env.SUBSCRIPTION_NAME;
 const timeout = 60;
 
 const subscription = pubsub.subscription(subscriptionName);

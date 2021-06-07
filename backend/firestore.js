@@ -24,4 +24,4 @@ snapshot.forEach((doc) => {
 });
 }
 
-b()
+getCollection()

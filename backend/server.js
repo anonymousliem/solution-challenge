@@ -11,6 +11,7 @@ const { nanoid } = require("nanoid");
 const { PubSub } = require(`@google-cloud/pubsub`);
 const pubsub = new PubSub();
 const topicName = process.env.topicName;
+const Firestore = require('@google-cloud/firestore');
 require("dotenv").config();
 
 // parse application/json
@@ -120,6 +121,14 @@ const databaseId = process.env.databaseId;
 const database = instance.database(databaseId);
 const tableNote = database.table(process.env.tableName);
 /** END Setting SPANNER */
+
+
+/**START SETTING FIRESTORE */
+const db = new Firestore({
+  projectId: process.env.projectId,
+  keyFilename: './config/key.json',
+});
+/**END SETTING FIRESTORE */
 
 /**** START  CRUD ACCOUNT *****/
 //show all account

@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "causal-tracker-312605",
+    "private_key_id": "5c82e0c058685e569480269af87ab1688b817105",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCnWGchzZ+E3MJb\nyPzKshZ2SAfYgf4MK9lO+9TGQYfZ0Gkt4dKocN2LxJqm2pjXAcokpbAfEkCgkPsd\necQl3YvLFUWpqgbyJg53NHFmebPYvDgSlKcg+bSbKaNI/NWEuPxK4TwQTuY6JqPk\njYUULsWDj+jRJarTZr/PQuzuSg4Cw6RdnJqmMHnwjFpIbiCyioGEMjBCX2z8SS0H\niIgWhENFbaXS1HBTmQ+Cfw8J4CXo1uFBGPEf+huecXbyVac11RpvDGLjwblisvmP\nCQ3DQyjEgAMnr8ZHEqBp2bsUG9zcZMbnSwA8PPx4zraFRV9kUK337NOszmYCfBJi\nShptFTtxAgMBAAECggEARwtp5Vj1gyNxxCPE5ozKqnaUFh/B6grnm/ef8nc5pIgt\nTxRTKb2Y4NCb04B0aLtSxVIuPlKyaziB05axZl3zDkm+pHQRtNXhSExUZGwApV/q\n8kB337EDMuhvcPod79XVDjknFclZRpDG/a3zNIlSwzLiZYB3UH6LqgNAsT1xS0xx\n/AkqWz4luoK7ozVCgyavqs9SzSE3oVzOnZhSe0PFZxmmEzn9po/nDEDiUdgmTR7k\non0JHzF8EBiKjlEwSBZBaEhRCo1H6viPFo6G4Pa0Ebdpo4neFqBugHSN926u3Y7w\nYrNaVCrFTjGsf5YTzuCr3tIpZWIgZaN6B2xad7CjzQKBgQDULytP9wlw7JccYUlp\nHVMbQ67/N80aQeEc+2a0bKeyzunee+gAmhnF0CKHI2iEI7sy7XVVXTBIxhSaJavo\nU2YFAvaj0al9scZOXOqW9glROa9cc+LLj/kjsnxNxvJkRHmbaPbXCjEU5fOf2UXX\n+hSITTb7RSZkG44wTSt+V5iW4wKBgQDJ5uKEETP/7ZFRPnZJZ/Rq6+saLonHEdlW\nLt3W+sz2YkNJf5K1jiVoHSYs1xtC83FTiWdYaEW44j00ei/+Aprd5fbWUEy/js1+\nwPfoZJiFKWGJUJJ97StO8TYUWvLHB6haQ/zMBWuu0BkWfqG/n9qlb9eHPNkrpjXd\no6re/kygmwKBgQDBeIUIs9sS8VdT1E1ooAmAKbXuFoZYs8s8busWBqDehJZwfBBu\nRBTN7tsc16dcHWx6olRDUuZM5PgyGblm7Gxwk2QquWjPKIMGPujUX2DdhDimlzAr\npopoBz4aeRXZYSp1Dz9LkopwYMBEd4ucw/Vm1ukUMdgwnYOH/UV0PRDwOwKBgEPQ\n7pLHqHy1UlNEtLyRU1K6rXxc12BrSWIeWdtE4KV9efZtCF09QqlG6TS0h+6kEJOr\nmm/ijlC8hSxkQkyCmXwhKxjvXegV0kZaEKsZZvWLYbyauKndiOd6M90Ac32Qv+aZ\n4Yax52qPcW3R2Qiha/KXr4A4WwXDTWKF//Xo2tozAoGALeOAqAsY3rNfdIZaYz6j\ntYPamGUEPlmOdITWCLnvaxrQep1tqYrQzKHqeVhYRC6K6Z/Scjowzi9sj/uU7kFe\nx9++q/eDqcKirgDzdcKqkUJYnT/4xsZuEx7l0R2jZkAnkIgJIKez454KIitmPWWj\n0QK0+If6SjYRJM1mLuRX36g=\n-----END PRIVATE KEY-----\n",
+    "client_email": "cloudspanner@causal-tracker-312605.iam.gserviceaccount.com",
+    "client_id": "111038182373091685316",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloudspanner%40causal-tracker-312605.iam.gserviceaccount.com"
+}

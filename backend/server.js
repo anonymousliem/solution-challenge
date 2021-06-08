@@ -857,11 +857,15 @@ app.get("/api/membership/:id", async (req, res) => {
 
 app.post("/api/membership/", async (req, res) => {
   try {
+    if(req.body.id_account !== undefined){
     var memberRef = db.collection(process.env.COLLECTION_NAME).doc(req.body.id_account);
     await memberRef.set({
       requestBody : req.body
     });
-    res.status(201).send("data added!");
+      res.status(201).send("data added!");
+    }else{
+      res.status(400).send("id_account required")
+    } 
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });

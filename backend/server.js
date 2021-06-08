@@ -218,7 +218,7 @@ app.delete("/api/accounts/:id", (req, res) => {
       .catch((err) => {
         console.error("ERROR:", err);
       });
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
+    res.send(JSON.stringify({ status: 202, error: null, response: results }));
   });
 });
 
@@ -357,7 +357,7 @@ app.delete("/api/users/:id", (req, res) => {
       .catch((err) => {
         console.error("ERROR:", err);
       });
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
+    res.send(JSON.stringify({ status: 202, error: null, response: results }));
   });
 });
 /**** END CRUD USER*****/
@@ -484,7 +484,7 @@ app.delete("/api/books/:id", (req, res) => {
       .catch((err) => {
         console.error("ERROR:", err);
       });
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
+    res.send(JSON.stringify({ status: 202, error: null, response: results }));
   });
 });
 
@@ -586,7 +586,7 @@ app.delete("/api/peminjamans/:id", (req, res) => {
       .catch((err) => {
         console.error("ERROR:", err);
       });
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
+    res.send(JSON.stringify({ status: 202, error: null, response: results }));
   });
 });
 /**** END CRUD PINJAMAN*****/
@@ -883,10 +883,25 @@ app.put("/api/membership/:id", async (req, res) => {
           await memberRef.set({
             requestBody : req.body
           });
-            res.status(201).send("data updated!");
+            res.status(202).send("data updated!");
         }else{
           res.status(400).send("id_account required")
         }
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+});
+
+app.delete("/api/membership/:id", async (req, res) => {
+  try {
+    let data = await getCollectionById(req.params.id);
+    if(data === undefined){
+      res.status(404).send("id not found")
+    }else{
+         db.collection(process.env.COLLECTION_NAME).doc(req.params.id.toString()).delete();
+         res.status(202).send("data deleted!");
     }
   } catch (err) {
     console.log(err);

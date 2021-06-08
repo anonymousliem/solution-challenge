@@ -830,8 +830,8 @@ app.delete("/api/notes/:id", async (req, res) => {
 
 /** START CRUD MEMBERSHIP*/
 async function getCollectionById(id){
-  const cityRef = db.collection(process.env.COLLECTION_NAME).doc(id);
-  const doc = await cityRef.get();
+  var cityRef = db.collection(process.env.COLLECTION_NAME).doc(id);
+  var doc = await cityRef.get();
   if (!doc.exists) {
     console.log('No such document!');
   } else {
@@ -849,6 +849,19 @@ app.get("/api/membership/:id", async (req, res) => {
       res.send(data);
     }
     
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+});
+
+app.post("/api/membership/", async (req, res) => {
+  try {
+    var memberRef = db.collection(process.env.COLLECTION_NAME).doc(req.body.id_account);
+    await memberRef.set({
+      requestBody : req.body
+    });
+    res.status(201).send("data added!");
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });

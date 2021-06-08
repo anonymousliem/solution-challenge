@@ -858,7 +858,7 @@ app.get("/api/membership/:id", async (req, res) => {
 app.post("/api/membership/", async (req, res) => {
   try {
     if(req.body.id_account !== undefined){
-    var memberRef = db.collection(process.env.COLLECTION_NAME).doc(req.body.id_account);
+    var memberRef = db.collection(process.env.COLLECTION_NAME).doc(req.body.id_account.toString());
     await memberRef.set({
       requestBody : req.body
     });
@@ -866,6 +866,28 @@ app.post("/api/membership/", async (req, res) => {
     }else{
       res.status(400).send("id_account required")
     } 
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+});
+
+app.put("/api/membership/:id", async (req, res) => {
+  try {
+    let data = await getCollectionById(req.params.id);
+    if(data === undefined){
+      res.status(404).send("id not found")
+    }else{
+        var memberRef = db.collection(process.env.COLLECTION_NAME).doc(req.params.id);
+        if(req.body.id_account !== undefined){
+          await memberRef.set({
+            requestBody : req.body
+          });
+            res.status(201).send("data updated!");
+        }else{
+          res.status(400).send("id_account required")
+        }
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });

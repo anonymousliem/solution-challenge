@@ -167,6 +167,7 @@ Frontend using template from <a href="https://coreui.io/"> core ui </a>
 * CRUD My Book
 * Add and update personal info
 * CRUD Note
+* CRUD Membership
 
 ## Postman Documentation
 https://www.getpostman.com/collections/4134b224a4d75aa3fe09

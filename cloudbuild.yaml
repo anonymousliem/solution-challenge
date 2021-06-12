@@ -11,6 +11,12 @@ steps:
     - 'DB_PASS=${_DB_PASS}'
     - 'DB_NAME=${_DB_NAME}'
     - 'DB_PORT=${_DB_PORT}'
+    - 'GCP_PROJECT_ID=${_GCP_PROJECT_ID}'
+    - 'BUCKET_NAME=${_BUCKET_NAME}'
+    - 'PROJECT_ID=${_PROJECT_ID}'
+    - 'INSTANCE_ID=${_INSTANCE_ID}'
+    - 'DATABASE_ID=${_DATABASE_ID}'
+    - 'TABLE_NAME=${_TABLE_NAME}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"
